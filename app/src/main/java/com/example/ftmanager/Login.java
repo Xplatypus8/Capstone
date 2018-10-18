@@ -29,6 +29,8 @@ public class Login extends AppCompatActivity {
         try {
             if(dbConnect.execute(type, username, password ).get().equals("login success")){
                 startActivity(new Intent(Login.this, MainScreenActivity.class));
+                usernameET.setText("");
+                passwordET.setText("");
             }
             else{
                 alertDialog = new AlertDialog.Builder(this).create();

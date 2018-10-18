@@ -1,9 +1,6 @@
 package com.example.ftmanager;
 
-import android.app.AlertDialog;
-import android.content.Context;
 import android.os.AsyncTask;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
