@@ -8,9 +8,9 @@
     tools:context=".Login">
 
     <EditText
-        android:id="@+id/editText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/username"
+        android:layout_width="215dp"
+        android:layout_height="35dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="202dp"
@@ -20,13 +20,13 @@
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/editText2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/editText"
+        android:id="@+id/password"
+        android:layout_width="215dp"
+        android:layout_height="35dp"
+        android:layout_alignStart="@+id/username"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="1dp"
-        android:layout_marginBottom="280dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginBottom="355dp"
         android:background="#11000000"
         android:ems="10"
         android:hint="Password"
@@ -38,6 +38,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="147dp"
+        android:clickable="true"
+        android:onClick="login"
         app:cardBackgroundColor="@color/buttonColor"
         app:cardCornerRadius="25dp"
         app:cardElevation="10dp">
@@ -53,6 +55,18 @@
                 android:text="Login"
                 android:layout_centerInParent="true"
                 android:textColor="#fff"/>
+
         </RelativeLayout>
     </android.support.v7.widget.CardView>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="278dp"
+        android:layout_height="182dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="2dp"
+        app:srcCompat="@drawable/ftic_logo" />
+
 </RelativeLayout>
