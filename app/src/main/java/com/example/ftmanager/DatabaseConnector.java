@@ -17,11 +17,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 public class DatabaseConnector extends AsyncTask<String, Void, String>{
-    Context context;
-    AlertDialog alertDialog;
-    DatabaseConnector(Context ctx){
-        context = ctx;
-    }
 
     @Override
     protected String doInBackground(String... params) {
@@ -67,19 +62,8 @@ public class DatabaseConnector extends AsyncTask<String, Void, String>{
     }
 
     @Override
-    protected void onPreExecute() {
-        alertDialog = new AlertDialog.Builder(context).create();
-        alertDialog.setTitle("Login Status");
-    }
-
-    @Override
-    protected void onPostExecute(String result) {
-        alertDialog.setMessage(result);
-        alertDialog.show();
-    }
-
-    @Override
     protected void onProgressUpdate(Void... values) {
         super.onProgressUpdate(values);
     }
+
 }
