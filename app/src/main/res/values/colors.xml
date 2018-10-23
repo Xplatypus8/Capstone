@@ -4,4 +4,10 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="buttonColor">#254b87</color>
+    <color name="flagBlue">#093b8c</color>
+    <color name="flagBlueDark">#041d47</color>
+    <color name="flagWhite">#d8d8b6</color>
+    <color name="flagWhiteDark">#7c7c6d</color>
+    <color name="flagRed">#cc1414</color>
+    <color name="flagRedDark">#960f0f</color>
 </resources>
