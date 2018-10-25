@@ -4,15 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/babyBlueBackground"
     tools:context=".RegisterActivity">
 
     <EditText
         android:id="@+id/usernameET2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp"
+        android:background="@color/white"
         android:ems="10"
         android:hint="username"
         android:inputType="textPersonName"
@@ -22,27 +24,16 @@
     <EditText
         android:id="@+id/passwordET2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="193dp"
+        android:background="@color/white"
         android:ems="10"
         android:hint="password"
         android:inputType="textPersonName"
         tools:layout_editor_absoluteX="98dp"
         tools:layout_editor_absoluteY="177dp" />
-
-    <EditText
-        android:id="@+id/typeET2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:ems="10"
-        android:hint="type"
-        android:inputType="textPersonName"
-        tools:layout_editor_absoluteX="98dp"
-        tools:layout_editor_absoluteY="262dp" />
 
     <Button
         android:id="@+id/button2"
@@ -52,7 +43,28 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="157dp"
         android:onClick="register"
-        android:text="Button"
+        android:text="Create User"
         tools:layout_editor_absoluteX="161dp"
         tools:layout_editor_absoluteY="445dp" />
+
+    <Spinner
+        android:id="@+id/positionSpinner"
+        android:layout_width="210dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="102dp"
+        android:layout_marginBottom="310dp"
+        android:background="@color/white" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="192dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="269dp"
+        android:text="Select user type:"
+        android:textSize="20sp"
+        android:textColor="@color/black"/>
 </RelativeLayout>

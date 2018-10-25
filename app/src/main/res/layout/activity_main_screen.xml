@@ -30,13 +30,14 @@
                     android:layout_height="120dp"
                     android:layout_weight="1"
                     android:layout_margin="2dp"
+                    android:clickable="true"
+                    android:onClick="goToFinanceReport"
                     android:orientation="vertical"
                     android:background="@color/flagBlue">
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_marginTop="20dp"
-                        app:srcCompat ="@drawable/ic_add_person"/>
+                        android:layout_marginTop="20dp" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -172,8 +173,6 @@
                     android:layout_weight="1"
                     android:layout_margin="2dp"
                     android:orientation="vertical"
-                    android:clickable="true"
-                    android:onClick="goToRegister"
                     android:background="@color/flagRed">
                     <ImageView
                         android:layout_width="30dp"
@@ -192,17 +191,27 @@
                     android:layout_weight="1"
                     android:layout_margin="2dp"
                     android:orientation="vertical"
+                    android:clickable="true"
+                    android:onClick="goToRegister"
                     android:background="@color/flagRed">
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_marginTop="20dp"/>
+                        android:layout_marginTop="20dp"
+                        android:layout_gravity="center"
+                        android:tint="@color/white"
+                        app:srcCompat ="@drawable/ic_add_person"
+                        />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="8dp"
                         android:layout_marginTop="30dp"
-                        android:background="@color/flagRedDark"/>
+                        android:background="@color/flagRedDark"
+                        android:text="Add New User"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

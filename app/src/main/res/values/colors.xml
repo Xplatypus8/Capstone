@@ -10,4 +10,7 @@
     <color name="flagWhiteDark">#7c7c6d</color>
     <color name="flagRed">#cc1414</color>
     <color name="flagRedDark">#960f0f</color>
+    <color name="babyBlueBackground">#90b4ed</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
 </resources>
