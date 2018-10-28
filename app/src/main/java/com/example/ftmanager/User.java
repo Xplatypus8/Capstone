@@ -6,20 +6,19 @@ import android.os.Parcelable;
 public class User implements Parcelable {
     private String name, surname, username, position;
     private int userID;
-    public User(int id, String [] values){
-        userID = id;
-        username = values[0];
+    public User(String [] values){
+        userID = Integer.parseInt(values[0]);
+        username = values[1];
         name = "default";
         surname ="default";
-        position = values[1];
+        position = values[2];
     }
     public User(Parcel in) {
         userID = in.readInt();
-        String [] values = in.readString().split(",", 0);
-        username = values[0];
-        name = "default";
-        surname ="default";
-        position = values[1];
+        username = in.readString();
+        name = in.readString();
+        surname = in.readString();
+        position = in.readString();
     }
     public int getUserID(){
         return userID;
@@ -60,5 +59,10 @@ public class User implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(userID);
+        parcel.writeString(username);
+        parcel.writeString(name);
+        parcel.writeString(surname);
+        parcel.writeString(position);
     }
 }

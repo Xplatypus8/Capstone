@@ -18,14 +18,12 @@ import java.util.concurrent.ExecutionException;
 public class Login extends AppCompatActivity {
     AlertDialog alertDialog;
     private EditText usernameET, passwordET;
-    private List<String> accessList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         usernameET = (EditText)findViewById(R.id.username);
         passwordET = (EditText)findViewById(R.id.password);
-        accessList = new ArrayList<String>(Arrays.asList("owner", "manager", "cashier"));
     }
 
     public void login(View view){
@@ -36,15 +34,16 @@ public class Login extends AppCompatActivity {
 
         try {
             String data = dbConnect.execute(type, username, password ).get();
-            User currentUser = new User(1, data.split(",",0));
-            if(accessList.contains(data)){
-                Intent intent = new Intent(Login.this, MainScreenActivity.class);
-                Bundle b = new Bundle();
-                b.putString("userPosition", data);
-                intent.putExtras(b);
-                startActivity(intent);
-                usernameET.setText("");
-                passwordET.setText("");
+            if(!data.equals("login failed")){
+                    User currentUser = new User(data.split(","));
+                    Intent intent = new Intent(Login.this, MainScreenActivity.class);
+                    Bundle b = new Bundle();
+                    b.putParcelable("currentUser", currentUser);
+                    intent.putExtras(b);
+                    startActivity(intent);
+                    usernameET.setText("");
+                    passwordET.setText("");
+
             }
             else{
                 Toast.makeText(getApplicationContext(),data,Toast.LENGTH_SHORT).show();

@@ -7,22 +7,28 @@ import android.view.View;
 import android.widget.Toast;
 
 public class MainScreenActivity extends AppCompatActivity {
-    private String userPosition;
+    private User currentUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
         Bundle b = getIntent().getExtras();
         if(b != null){
-            userPosition = b.getString("userPosition");
+            currentUser = b.getParcelable("currentUser");
+            if(currentUser.getUsername()==null){
+            Toast.makeText(getApplicationContext(),"null",Toast.LENGTH_SHORT).show();}
+            else{
+                Toast.makeText(getApplicationContext(),"succ",Toast.LENGTH_SHORT).show();
+            }
         }
         else {
-            userPosition = "unspecified";
+            currentUser = null;
+            Toast.makeText(getApplicationContext(),"null2",Toast.LENGTH_SHORT).show();
         }
     }
 
     public void goToRegister(View view){
-        if(userPosition.equals("manager") || userPosition.equals("owner")) {
+        if(currentUser.getPosition().equals("manager") || currentUser.getPosition().equals("owner")) {
             startActivity(new Intent(MainScreenActivity.this, RegisterActivity.class));
         }
         else{
@@ -32,7 +38,7 @@ public class MainScreenActivity extends AppCompatActivity {
     }
 
     public void goToFinanceReport(View view){
-        if(userPosition.equals("manager") || userPosition.equals("owner")) {
+        if(currentUser.getPosition().equals("manager") || currentUser.getPosition().equals("owner")) {
             startActivity(new Intent(MainScreenActivity.this, ReportFinanceActivity.class));
         }
         else{
