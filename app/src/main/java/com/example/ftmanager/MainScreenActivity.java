@@ -44,6 +44,15 @@ public class MainScreenActivity extends AppCompatActivity {
 
     }
 
+    public void goToInventoryReport(View view){
+        Intent intent = new Intent(MainScreenActivity.this, ReportInventoryActivity.class);
+        Bundle b = new Bundle();
+        b.putParcelable("currentUser", currentUser);
+        intent.putExtras(b);
+        startActivity(intent);
+
+    }
+
     private void notAccessible(){
         Toast.makeText(getApplicationContext(),"You do not have access to this feature.",Toast.LENGTH_SHORT).show();
     }

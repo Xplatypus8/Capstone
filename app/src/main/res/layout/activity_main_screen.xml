@@ -37,12 +37,19 @@
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_marginTop="20dp" />
+                        android:layout_marginTop="20dp"
+                        android:layout_gravity="center"
+                        android:tint="@color/white"
+                        app:srcCompat = "@drawable/ic_money_sign"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="8dp"
                         android:layout_marginTop="30dp"
+                        android:text="Submit Earnings"
+                        android:textColor="@color/white"
+                        android:textAlignment="center"
+                        android:textSize="15sp"
                         android:background="@color/flagBlueDark"/>
                 </LinearLayout>
                 <LinearLayout
@@ -51,7 +58,9 @@
                     android:layout_weight="1"
                     android:layout_margin="2dp"
                     android:orientation="vertical"
-                    android:background="@color/flagBlue">
+                    android:background="@color/flagBlue"
+                    android:clickable="true"
+                    android:onClick="goToInventoryReport">
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"

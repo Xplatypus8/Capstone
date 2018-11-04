@@ -20,7 +20,8 @@
         </activity>
         <activity android:name=".MainScreenActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".ReportFinanceActivity"></activity>
+        <activity android:name=".ReportFinanceActivity" />
+        <activity android:name=".ReportInventoryActivity" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
