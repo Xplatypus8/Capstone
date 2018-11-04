@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +14,8 @@ public class ReportInventoryActivity extends AppCompatActivity {
 
     private List<Product> productList;
     private RecyclerView recyclerView;
+    private InventoryAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,8 +37,12 @@ public class ReportInventoryActivity extends AppCompatActivity {
         productList.add(new Product("Nuts", ""));
         productList.add(new Product("Hot Fudge", ""));
 
-        InventoryAdapter adapter = new InventoryAdapter(this, productList);
+        adapter = new InventoryAdapter(this, productList);
 
         recyclerView.setAdapter(adapter);
+    }
+
+    public void submitInventory(View view){
+        List<Product> requiredProducts = adapter.getSelectedItems();
     }
 }

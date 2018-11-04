@@ -22,6 +22,10 @@ public class Product {
         isNeeded = needed;
     }
 
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
+    }
+
     public boolean isNeeded() {
         return isNeeded;
     }
