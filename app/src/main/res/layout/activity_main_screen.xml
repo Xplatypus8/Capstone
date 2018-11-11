@@ -171,17 +171,26 @@
                     android:layout_weight="1"
                     android:layout_margin="2dp"
                     android:orientation="vertical"
-                    android:background="@color/flagRed">
+                    android:background="@color/flagRed"
+                    android:clickable="true"
+                    android:onClick="goToGraph">
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_marginTop="20dp"/>
+                        android:layout_marginTop="20dp"
+                        android:layout_gravity="center"
+                        android:tint="@color/white"
+                        app:srcCompat ="@drawable/ic_chart"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="8dp"
                         android:layout_marginTop="30dp"
-                        android:background="@color/flagRedDark"/>
+                        android:background="@color/flagRedDark"
+                        android:text="@string/Graph"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"

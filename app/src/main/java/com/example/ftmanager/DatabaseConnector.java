@@ -22,6 +22,7 @@ public class DatabaseConnector extends AsyncTask<String, Void, String>{
         String register_url = "http://18.224.210.74/appconnect/register.php";
         String send_f_report_url = "http://18.224.210.74/appconnect/send_financial_report.php";
         String send_i_report_url = "http://18.224.210.74/appconnect/send_inventory_report.php";
+        String get_f_data_url = "http://18.224.210.74/appconnect/graph_data.php";
         if(type.equals("login")){
             try {
                 String username = params[1];
@@ -150,6 +151,44 @@ public class DatabaseConnector extends AsyncTask<String, Void, String>{
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
                 String post_data = URLEncoder.encode("product", "UTF-8")+"="+URLEncoder.encode(product, "UTF-8")+"&"
                         +URLEncoder.encode("quantity", "UTF-8")+"="+URLEncoder.encode(quantity, "UTF-8") +"&"
+                        +URLEncoder.encode("loc", "UTF-8")+"="+URLEncoder.encode(location, "UTF-8");
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream,"iso-8859-1"));
+                String result ="";
+                String line;
+                while((line = bufferedReader.readLine()) != null){
+                    result += line;
+                }
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+                return result;
+
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else if(type.equals("get_f_data")){
+            try {
+                String startDate = params[1];
+                String endDate = params[2];
+                String location = params[3];
+                URL url = new URL(get_f_data_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                String post_data = URLEncoder.encode("startDate", "UTF-8")+"="+URLEncoder.encode(startDate, "UTF-8")+"&"
+                        +URLEncoder.encode("endDate", "UTF-8")+"="+URLEncoder.encode(endDate, "UTF-8") +"&"
                         +URLEncoder.encode("loc", "UTF-8")+"="+URLEncoder.encode(location, "UTF-8");
                 bufferedWriter.write(post_data);
                 bufferedWriter.flush();
