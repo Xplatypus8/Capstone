@@ -162,7 +162,7 @@ public class GraphActivity extends AppCompatActivity {
 
             try {
                 String reportValues = databaseConnector.execute(type, startDate, endDate, location).get();
-                String[] reports = reportValues.split("@");
+                String[] reports = reportValues.split("@");///////////////////////////////////////
                 for (String report : reportValues.split("@")) {
                     earningsReportList.add(new EarningsReport(report.split(",")));
                 }

@@ -53,6 +53,14 @@ public class MainScreenActivity extends AppCompatActivity {
 
     }
 
+    public void goToViewEarnings(View view){
+        Intent intent = new Intent(MainScreenActivity.this, ViewEarningsActivity.class);
+        Bundle b = new Bundle();
+        b.putParcelable("currentUser", currentUser);
+        intent.putExtras(b);
+        startActivity(intent);
+    }
+
     public void goToGraph(View view){
         Intent intent = new Intent(MainScreenActivity.this, GraphActivity.class);
         Bundle b = new Bundle();
