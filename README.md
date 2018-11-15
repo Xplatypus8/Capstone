@@ -7,3 +7,5 @@ The project in its current state:
       -owners and managers can access features that cashiers cannot.
   3. A functioning main screen activity.
   4. Upper level users have the ability to add new users to the database via the app.
+  5. Users can submit finance data or inventory data.
+  6. Users are able to view finance data and owners can view the data graphically.
