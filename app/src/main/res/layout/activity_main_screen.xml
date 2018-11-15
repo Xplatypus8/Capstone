@@ -67,7 +67,7 @@
                         android:layout_marginTop="20dp"
                         android:layout_gravity="center"
                         android:tint="@color/white"
-                        app:srcCompat = "@drawable/ic_clipboard"/>/>
+                        app:srcCompat = "@drawable/ic_clipboard"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -89,12 +89,19 @@
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_marginTop="20dp"/>
+                        android:layout_marginTop="20dp"
+                        android:layout_gravity="center"
+                        android:tint="@color/white"
+                        app:srcCompat = "@drawable/ic_schedule"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="8dp"
                         android:layout_marginTop="30dp"
+                        android:text="View Schedule"
+                        android:textColor="@color/white"
+                        android:textAlignment="center"
+                        android:textSize="15sp"
                         android:background="@color/flagBlueDark"/>
                 </LinearLayout>
             </LinearLayout>
@@ -116,12 +123,19 @@
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_marginTop="20dp"/>
+                        android:layout_marginTop="20dp"
+                        android:layout_gravity="center"
+                        android:tint="@color/white"
+                        app:srcCompat = "@drawable/ic_recycler_view"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="8dp"
                         android:layout_marginTop="30dp"
+                        android:text="View Earnings"
+                        android:textColor="@color/white"
+                        android:textAlignment="center"
+                        android:textSize="15sp"
                         android:background="@color/flagWhiteDark"/>
                 </LinearLayout>
                 <LinearLayout
@@ -134,12 +148,19 @@
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_marginTop="20dp"/>
+                        android:layout_marginTop="20dp"
+                        android:layout_gravity="center"
+                        android:tint="@color/white"
+                        app:srcCompat = "@drawable/ic_inventory"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="8dp"
                         android:layout_marginTop="30dp"
+                        android:text="View Inventory"
+                        android:textColor="@color/white"
+                        android:textAlignment="center"
+                        android:textSize="15sp"
                         android:background="@color/flagWhiteDark"/>
                 </LinearLayout>
                 <LinearLayout
@@ -152,12 +173,19 @@
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_marginTop="20dp"/>
+                        android:layout_marginTop="20dp"
+                        android:layout_gravity="center"
+                        android:tint="@color/white"
+                        app:srcCompat = "@drawable/ic_edit_schedule"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="8dp"
                         android:layout_marginTop="30dp"
+                        android:text="Edit Schedule"
+                        android:textColor="@color/white"
+                        android:textAlignment="center"
+                        android:textSize="15sp"
                         android:background="@color/flagWhiteDark"/>
                 </LinearLayout>
             </LinearLayout>
@@ -204,12 +232,19 @@
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_marginTop="20dp"/>
+                        android:layout_marginTop="20dp"
+                        android:layout_gravity="center"
+                        android:tint="@color/white"
+                        app:srcCompat = "@drawable/ic_settings"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="8dp"
                         android:layout_marginTop="30dp"
+                        android:text="Settings"
+                        android:textColor="@color/white"
+                        android:textAlignment="center"
+                        android:textSize="15sp"
                         android:background="@color/flagRedDark"/>
                 </LinearLayout>
                 <LinearLayout

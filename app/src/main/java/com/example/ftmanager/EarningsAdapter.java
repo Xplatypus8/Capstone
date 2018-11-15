@@ -51,9 +51,9 @@ public class EarningsAdapter extends RecyclerView.Adapter<EarningsAdapter.Earnin
         EarningsReport report = earningsReportList.get(position);
 
         holder.dateTV.setText(formatDateDDMMYYYY(report.getDate()));
-        holder.totalTV.setText(report.getTotal().toString());
-        holder.cashTV.setText(report.getCash().toString());
-        holder.creditTV.setText(report.getCredit().toString());
+        holder.totalTV.setText("Total: " + report.getTotal().toString());
+        holder.cashTV.setText("Cash: " + report.getCash().toString());
+        holder.creditTV.setText("Credit: " + report.getCredit().toString());
 
     }
 
