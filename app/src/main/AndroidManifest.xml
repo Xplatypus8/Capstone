@@ -25,7 +25,8 @@
             android:name=".ReportInventoryActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".GraphActivity" />
-        <activity android:name=".ViewEarningsActivity"></activity>
+        <activity android:name=".ViewEarningsActivity" />
+        <activity android:name=".EditReportActivity"></activity>
     </application>
 
 </manifest>

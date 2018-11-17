@@ -1,11 +1,15 @@
 package com.example.ftmanager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import java.util.List;
@@ -55,6 +59,29 @@ public class EarningsAdapter extends RecyclerView.Adapter<EarningsAdapter.Earnin
         holder.cashTV.setText("Cash: " + report.getCash().toString());
         holder.creditTV.setText("Credit: " + report.getCredit().toString());
 
+        holder.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final PopupMenu popupMenu = new PopupMenu(context, holder.button);
+                popupMenu.getMenuInflater().inflate(R.menu.report_popup_menu, popupMenu.getMenu());
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        if(menuItem.getTitle().equals("Report Details")){
+                            //launch new activity
+                        }
+                        else{
+                            context.startActivity(new Intent(context, EditReportActivity.class));
+                        }
+                        return true;
+                    }
+                });
+                popupMenu.show();
+            }
+        });
+
+
     }
 
     @Override
@@ -65,6 +92,7 @@ public class EarningsAdapter extends RecyclerView.Adapter<EarningsAdapter.Earnin
 
     public class EarningsViewHolder extends RecyclerView.ViewHolder {
         TextView dateTV, totalTV, cashTV, creditTV;
+        ImageButton button;
 
         public EarningsViewHolder(View itemView) {
             super(itemView);
@@ -72,6 +100,7 @@ public class EarningsAdapter extends RecyclerView.Adapter<EarningsAdapter.Earnin
             totalTV = itemView.findViewById(R.id.totalTV);
             cashTV = itemView.findViewById(R.id.cashTV);
             creditTV = itemView.findViewById(R.id.creditTV);
+            button = itemView.findViewById(R.id.popup);
 
             /*title = itemView.findViewById(R.id.productTitle);
             amountET = itemView.findViewById(R.id.amountET);
