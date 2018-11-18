@@ -1,5 +1,6 @@
 package com.example.ftmanager;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -71,36 +72,50 @@ public class ViewEarningsActivity extends AppCompatActivity {
     public void getEarningsReports(View view){
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 
-        String type = "get_f_data";
-        String startDate = formatDateYYYYMMDD(earningsDateTV.getText().toString());
-        String endDate = sdf.format(calendar.getTime());
-        String location = locationList.indexOf(locSpinner.getSelectedItem().toString())+"";
+        if(locSpinner.getSelectedItem().toString().equals("Select a location")){
+            alertDialog.setTitle("Error:");
+            alertDialog.setMessage("Please select a location before proceeding");
+            alertDialog.show();
+        }
+        else if(earningsDateTV.getText().toString().equals("")){
+            alertDialog.setTitle("Error:");
+            alertDialog.setMessage("Please select a date");
+            alertDialog.show();
+        }
+        else {
 
-        DatabaseConnector databaseConnector = new DatabaseConnector();
-        try {
-            reportList = new ArrayList<EarningsReport>();
+            String type = "get_f_data";
+            String startDate = formatDateYYYYMMDD(earningsDateTV.getText().toString());
+            String endDate = sdf.format(calendar.getTime());
+            String location = locationList.indexOf(locSpinner.getSelectedItem().toString()) + "";
 
-            String reportValues = databaseConnector.execute(type, startDate, endDate, location).get();
-            if(!reportValues.equals(null) && !reportValues.equals("login failed")) {
-                for (String report : reportValues.split("@")) {
-                    reportList.add(new EarningsReport(report.split(",")));
+            DatabaseConnector databaseConnector = new DatabaseConnector();
+            try {
+                reportList = new ArrayList<EarningsReport>();
+
+                String reportValues = databaseConnector.execute(type, startDate, endDate, location).get();
+                if (!reportValues.equals(null) && !reportValues.equals("login failed")) {
+                    for (String report : reportValues.split("@")) {
+                        reportList.add(new EarningsReport(report.split(",")));
+                    }
                 }
+
+                //init recyclerview
+                recyclerView = (RecyclerView) findViewById(R.id.recyclerView2);
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+                earningsAdapter = new EarningsAdapter(this, reportList);
+
+                recyclerView.setAdapter(earningsAdapter);
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
             }
-
-            //init recyclerview
-            recyclerView = (RecyclerView)findViewById(R.id.recyclerView2);
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-            earningsAdapter = new EarningsAdapter(this, reportList);
-
-            recyclerView.setAdapter(earningsAdapter);
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
         }
     }
 

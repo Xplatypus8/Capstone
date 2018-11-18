@@ -1,6 +1,8 @@
 package com.example.ftmanager;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -32,14 +34,13 @@ public class EditReportActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_report);
 
         Bundle b = getIntent().getExtras();
-        if(b != null){
+        if (b != null) {
             currentReport = b.getParcelable("currentReport");
-        }
-        else {
+        } else {
             currentReport = null;
         }
 
-        cashET = (EditText)findViewById(R.id.modifyCashET);
+        cashET = (EditText) findViewById(R.id.modifyCashET);
         creditET = (EditText) findViewById(R.id.modifyCreditET);
 
         locSpinner = (Spinner) findViewById(R.id.locationSpinner5);
@@ -75,27 +76,63 @@ public class EditReportActivity extends AppCompatActivity {
         };
     }
 
-    public void modifyReport(View view){
-        String type = "modify_report";
-        String id = currentReport.getId() + "";
-        String locationID = locationList.indexOf(locSpinner.getSelectedItem().toString())==0 ? currentReport.getLocationID() + "" : locationList.indexOf(locSpinner.getSelectedItem().toString())+"";
-        String cash = cashET.getText().toString().equals("") ? currentReport.getCash().toString() : cashET.getText().toString();
-        String credit = creditET.getText().toString().equals("") ? currentReport.getCredit().toString() : creditET.getText().toString();
-        String date = modifyReportDateTV.getText().toString().equals("") ? currentReport.getDate() : EarningsReport.formatDateYYYYMMDD(modifyReportDateTV.getText().toString());
+    public void modifyReport(View view) {
+        final String type = "modify_report";
+        final String id = currentReport.getId() + "";
+        final String locationID = locationList.indexOf(locSpinner.getSelectedItem().toString()) == 0 ? currentReport.getLocationID() + "" : locationList.indexOf(locSpinner.getSelectedItem().toString()) + "";
+        final String cash = cashET.getText().toString().equals("") ? currentReport.getCash().toString() : cashET.getText().toString();
+        final String credit = creditET.getText().toString().equals("") ? currentReport.getCredit().toString() : creditET.getText().toString();
+        final String date = modifyReportDateTV.getText().toString().equals("") ? currentReport.getDate() : EarningsReport.formatDateYYYYMMDD(modifyReportDateTV.getText().toString());
 
 
-        DatabaseConnector dbConnector = new DatabaseConnector();
+            ////////////////////////////////////////////////
 
-        try {
-            String result = dbConnector.execute(type, id, cash, credit, locationID, date).get();
-            Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
+            AlertDialog.Builder verifyDialog = new AlertDialog.Builder(this);
+            verifyDialog.setTitle("Verify Information:")
+                    .setMessage("Are you sure these cahnges are correct?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            DatabaseConnector dbConnect = new DatabaseConnector();
+                            try {
+                                DatabaseConnector dbConnector = new DatabaseConnector();
+                                AlertDialog.Builder resultDialog = new AlertDialog.Builder(EditReportActivity.this);
+                                String result = dbConnector.execute(type, id, cash, credit, locationID, date).get();
+                                if (result.equals("success")) {
+                                    resultDialog.setTitle("Status")
+                                            .setMessage("Report has been changed! Perform a new search to see the change.")
+                                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    finish();
+                                                }
+                                            }).show();
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+                                } else {
+                                    resultDialog.setTitle("Status")
+                                            .setMessage("Failure. Try again.")
+                                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    //Do nothing
+                                                }
+                                            }).show();
+                                }
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    //Do nothing
+                }
+            }).show();
+
+            ///////////////////////////////////////////////
+
+
         }
-
-
     }
-}
