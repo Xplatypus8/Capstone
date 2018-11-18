@@ -65,6 +65,8 @@ public class DatabaseConnector extends AsyncTask<String, Void, String>{
                 String username = params[1];
                 String password = params[2];
                 String userType = params[3];
+                String firstName = params[4];
+                String lastName = params[5];
                 URL url = new URL(register_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
@@ -74,7 +76,9 @@ public class DatabaseConnector extends AsyncTask<String, Void, String>{
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
                 String post_data = URLEncoder.encode("username", "UTF-8")+"="+URLEncoder.encode(username, "UTF-8")+"&"
                         +URLEncoder.encode("password", "UTF-8")+"="+URLEncoder.encode(password, "UTF-8") +"&"
-                        +URLEncoder.encode("userType", "UTF-8")+"="+URLEncoder.encode(userType, "UTF-8");
+                        +URLEncoder.encode("userType", "UTF-8")+"="+URLEncoder.encode(userType, "UTF-8") +"&"
+                        +URLEncoder.encode("firstName", "UTF-8")+"="+URLEncoder.encode(firstName, "UTF-8") +"&"
+                        +URLEncoder.encode("lastName", "UTF-8")+"="+URLEncoder.encode(lastName, "UTF-8");
                 bufferedWriter.write(post_data);
                 bufferedWriter.flush();
                 bufferedWriter.close();
