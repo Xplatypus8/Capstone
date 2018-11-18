@@ -82,9 +82,10 @@ public class ViewEarningsActivity extends AppCompatActivity {
             reportList = new ArrayList<EarningsReport>();
 
             String reportValues = databaseConnector.execute(type, startDate, endDate, location).get();
-            Toast.makeText(getApplicationContext(),reportValues,Toast.LENGTH_SHORT).show();
-            for (String report : reportValues.split("@")) {
-                reportList.add(new EarningsReport(report.split(",")));
+            if(!reportValues.equals(null) && !reportValues.equals("login failed")) {
+                for (String report : reportValues.split("@")) {
+                    reportList.add(new EarningsReport(report.split(",")));
+                }
             }
 
             //init recyclerview

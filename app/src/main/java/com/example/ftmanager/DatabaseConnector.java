@@ -23,6 +23,7 @@ public class DatabaseConnector extends AsyncTask<String, Void, String>{
         String send_f_report_url = "http://18.224.210.74/appconnect/send_financial_report.php";
         String send_i_report_url = "http://18.224.210.74/appconnect/send_inventory_report.php";
         String get_f_data_url = "http://18.224.210.74/appconnect/graph_data.php";
+        String modify_report_url = "http://18.224.210.74/appconnect/modify_report.php";
         if(type.equals("login")){
             try {
                 String username = params[1];
@@ -190,6 +191,48 @@ public class DatabaseConnector extends AsyncTask<String, Void, String>{
                 String post_data = URLEncoder.encode("startDate", "UTF-8")+"="+URLEncoder.encode(startDate, "UTF-8")+"&"
                         +URLEncoder.encode("endDate", "UTF-8")+"="+URLEncoder.encode(endDate, "UTF-8") +"&"
                         +URLEncoder.encode("loc", "UTF-8")+"="+URLEncoder.encode(location, "UTF-8");
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream,"iso-8859-1"));
+                String result ="";
+                String line;
+                while((line = bufferedReader.readLine()) != null){
+                    result += line;
+                }
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+                return result;
+
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else if(type.equals("modify_report")){
+            try {
+                String reportID = params[1];
+                String cash = params[2];
+                String credit = params[3];
+                String location = params[4];
+                String date = params[5];
+                URL url = new URL(modify_report_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                String post_data = URLEncoder.encode("id", "UTF-8")+"="+URLEncoder.encode(reportID, "UTF-8")+"&"
+                        +URLEncoder.encode("cash", "UTF-8")+"="+URLEncoder.encode(cash, "UTF-8") +"&"
+                        +URLEncoder.encode("credit", "UTF-8")+"="+URLEncoder.encode(credit, "UTF-8") +"&"
+                        +URLEncoder.encode("loc", "UTF-8")+"="+URLEncoder.encode(location, "UTF-8") +"&"
+                        +URLEncoder.encode("date", "UTF-8")+"="+URLEncoder.encode(date, "UTF-8");
                 bufferedWriter.write(post_data);
                 bufferedWriter.flush();
                 bufferedWriter.close();

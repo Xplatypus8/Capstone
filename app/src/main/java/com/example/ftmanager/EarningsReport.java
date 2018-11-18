@@ -108,4 +108,9 @@ public class EarningsReport implements Parcelable {
         parcel.writeDouble(credit.doubleValue());
         parcel.writeString(date);
     }
+
+    public static String formatDateYYYYMMDD(String mmddyyyy){
+        String [] dateArray = mmddyyyy.split("/");
+        return dateArray[2] + "-" + dateArray[0] + "-" + dateArray[1];
+    }
 }

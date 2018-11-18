@@ -2,6 +2,7 @@ package com.example.ftmanager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,9 +26,9 @@ public class EarningsAdapter extends RecyclerView.Adapter<EarningsAdapter.Earnin
         this.earningsReportList = earningsReportList;
     }
 
-    public String formatDateDDMMYYYY(String yyyymmdd){
+    public String formatDateMMDDYYYY(String yyyymmdd){
         String [] dateArray = yyyymmdd.split("-");
-        return dateArray[2] + "/" + dateArray[1] + "/" + dateArray[0];
+        return dateArray[1] + "/" + dateArray[2] + "/" + dateArray[0];
     }
 
 
@@ -52,9 +53,9 @@ public class EarningsAdapter extends RecyclerView.Adapter<EarningsAdapter.Earnin
 
     @Override
     public void onBindViewHolder(@NonNull final EarningsViewHolder holder, final int position) {
-        EarningsReport report = earningsReportList.get(position);
+        final EarningsReport report = earningsReportList.get(position);
 
-        holder.dateTV.setText(formatDateDDMMYYYY(report.getDate()));
+        holder.dateTV.setText(formatDateMMDDYYYY(report.getDate()));
         holder.totalTV.setText("Total: " + report.getTotal().toString());
         holder.cashTV.setText("Cash: " + report.getCash().toString());
         holder.creditTV.setText("Credit: " + report.getCredit().toString());
@@ -72,7 +73,11 @@ public class EarningsAdapter extends RecyclerView.Adapter<EarningsAdapter.Earnin
                             //launch new activity
                         }
                         else{
-                            context.startActivity(new Intent(context, EditReportActivity.class));
+                            Intent intent = new Intent(context, EditReportActivity.class);
+                            Bundle b = new Bundle();
+                            b.putParcelable("currentReport", report);
+                            intent.putExtras(b);
+                            context.startActivity(intent);
                         }
                         return true;
                     }
