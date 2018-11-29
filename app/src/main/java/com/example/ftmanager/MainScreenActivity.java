@@ -6,12 +6,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+
 public class MainScreenActivity extends AppCompatActivity {
     private User currentUser;
+    private HashMap<Integer, String> userMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
+
+        userMap = createUserMap();
+
         Bundle b = getIntent().getExtras();
         if(b != null){
             currentUser = b.getParcelable("currentUser");
@@ -57,6 +65,7 @@ public class MainScreenActivity extends AppCompatActivity {
         Intent intent = new Intent(MainScreenActivity.this, ViewEarningsActivity.class);
         Bundle b = new Bundle();
         b.putParcelable("currentUser", currentUser);
+        b.putSerializable("userMap", userMap);
         intent.putExtras(b);
         startActivity(intent);
     }
@@ -71,5 +80,25 @@ public class MainScreenActivity extends AppCompatActivity {
 
     private void notAccessible(){
         Toast.makeText(getApplicationContext(),"You do not have access to this feature.",Toast.LENGTH_SHORT).show();
+    }
+
+    private HashMap<Integer, String> createUserMap(){
+        HashMap<Integer, String> userMap = new HashMap<Integer, String>();
+
+        DatabaseConnector dbConnector = new DatabaseConnector();
+
+        try {
+            String result = dbConnector.execute("get_users").get();
+
+            for(String userInfo: result.split("@")){
+                User user = new User(userInfo.split(","));
+                userMap.put(new Integer(user.getUserID()), user.getName());
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return userMap;
     }
 }

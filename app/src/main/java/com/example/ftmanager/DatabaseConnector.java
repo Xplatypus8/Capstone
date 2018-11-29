@@ -24,6 +24,7 @@ public class DatabaseConnector extends AsyncTask<String, Void, String>{
         String send_i_report_url = "http://18.224.210.74/appconnect/send_inventory_report.php";
         String get_f_data_url = "http://18.224.210.74/appconnect/graph_data.php";
         String modify_report_url = "http://18.224.210.74/appconnect/modify_report.php";
+        String get_users_url = "http://18.224.210.74/appconnect/get_users.php";
         if(type.equals("login")){
             try {
                 String username = params[1];
@@ -241,6 +242,33 @@ public class DatabaseConnector extends AsyncTask<String, Void, String>{
                 bufferedWriter.flush();
                 bufferedWriter.close();
                 outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream,"iso-8859-1"));
+                String result ="";
+                String line;
+                while((line = bufferedReader.readLine()) != null){
+                    result += line;
+                }
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+                return result;
+
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        else if(type.equals("get_users")){
+            try {
+                URL url = new URL(get_users_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                //httpURLConnection.setDoInput(true);
                 InputStream inputStream = httpURLConnection.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream,"iso-8859-1"));
                 String result ="";

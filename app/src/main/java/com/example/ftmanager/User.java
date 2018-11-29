@@ -4,20 +4,20 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class User implements Parcelable {
-    private String name, surname, username, position;
+    private String name, username, position;
     private int userID;
+
     public User(String [] values){
         userID = Integer.parseInt(values[0]);
         username = values[1];
-        name = "default";
-        surname ="default";
         position = values[2];
+        name = values[3] + " " + values[4];
+
     }
     public User(Parcel in) {
         userID = in.readInt();
         username = in.readString();
         name = in.readString();
-        surname = in.readString();
         position = in.readString();
     }
     public int getUserID(){
@@ -26,10 +26,6 @@ public class User implements Parcelable {
 
     public String getName() {
         return name;
-    }
-
-    public String getSurname() {
-        return surname;
     }
 
     public String getUsername() {
@@ -62,7 +58,6 @@ public class User implements Parcelable {
         parcel.writeInt(userID);
         parcel.writeString(username);
         parcel.writeString(name);
-        parcel.writeString(surname);
         parcel.writeString(position);
     }
 }

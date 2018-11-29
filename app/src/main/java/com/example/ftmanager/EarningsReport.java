@@ -28,6 +28,7 @@ public class EarningsReport implements Parcelable {
         cash = BigDecimal.valueOf(in.readDouble());
         credit = BigDecimal.valueOf(in.readDouble());
         date = in.readString();
+        total = cash.add(credit);
     }
 
     public static final Creator<EarningsReport> CREATOR = new Creator<EarningsReport>() {
@@ -112,5 +113,10 @@ public class EarningsReport implements Parcelable {
     public static String formatDateYYYYMMDD(String mmddyyyy){
         String [] dateArray = mmddyyyy.split("/");
         return dateArray[2] + "-" + dateArray[0] + "-" + dateArray[1];
+    }
+
+    public static String formatDateMMDDYYYY(String yyyymmdd){
+        String [] dateArray = yyyymmdd.split("-");
+        return dateArray[1] + "/" + dateArray[2] + "/" + dateArray[0];
     }
 }

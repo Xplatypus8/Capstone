@@ -41,8 +41,7 @@ public class Login extends AppCompatActivity {
                     b.putParcelable("currentUser", currentUser);
                     intent.putExtras(b);
                     startActivity(intent);
-                    usernameET.setText("");
-                    passwordET.setText("");
+                    finish();
 
             }
             else{

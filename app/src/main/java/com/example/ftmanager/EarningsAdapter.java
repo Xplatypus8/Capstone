@@ -1,5 +1,6 @@
 package com.example.ftmanager;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class EarningsAdapter extends RecyclerView.Adapter<EarningsAdapter.EarningsViewHolder> {
@@ -69,8 +71,24 @@ public class EarningsAdapter extends RecyclerView.Adapter<EarningsAdapter.Earnin
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
+
                         if(menuItem.getTitle().equals("Report Details")){
-                            //launch new activity
+
+                            HashMap<Integer, String> userMap;
+                            Bundle data = ((Activity) context).getIntent().getExtras();
+                            if(data != null){
+                                userMap = (HashMap<Integer,String>) data.getSerializable("userMap");
+                            }
+                            else {
+                                userMap = null;
+                            }
+
+                            Intent intent = new Intent(context, ViewReportDetails.class);
+                            Bundle b = new Bundle();
+                            b.putParcelable("currentReport", report);
+                            b.putSerializable("userMap", userMap);
+                            intent.putExtras(b);
+                            context.startActivity(intent);
                         }
                         else{
                             Intent intent = new Intent(context, EditReportActivity.class);
