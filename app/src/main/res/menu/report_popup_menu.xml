@@ -9,4 +9,8 @@
         android:id ="@+id/modify"
         android:title="Modify Report"
         />
+    <item
+        android:id ="@+id/delete"
+        android:title="@string/delete"
+        />
 </menu>
