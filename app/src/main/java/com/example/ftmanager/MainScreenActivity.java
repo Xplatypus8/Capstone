@@ -70,6 +70,15 @@ public class MainScreenActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void goToViewInventory(View view){
+        Intent intent = new Intent(MainScreenActivity.this, ViewInventoryActivity.class);
+        Bundle b = new Bundle();
+        b.putParcelable("currentUser", currentUser);
+        b.putSerializable("userMap", userMap);
+        intent.putExtras(b);
+        startActivity(intent);
+    }
+
     public void goToGraph(View view){
         Intent intent = new Intent(MainScreenActivity.this, GraphActivity.class);
         Bundle b = new Bundle();

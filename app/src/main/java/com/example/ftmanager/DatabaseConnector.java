@@ -26,6 +26,7 @@ public class DatabaseConnector extends AsyncTask<String, Void, String>{
         String modify_report_url = "http://18.224.210.74/appconnect/modify_report.php";
         String get_users_url = "http://18.224.210.74/appconnect/get_users.php";
         String delete_report_url = "http://18.224.210.74/appconnect/delete_report.php";
+        String view_inventory_url = "http://18.224.210.74/appconnect/view_inventory.php";
         if(type.equals("login")){
             try {
                 String username = params[1];
@@ -304,6 +305,31 @@ public class DatabaseConnector extends AsyncTask<String, Void, String>{
                 bufferedWriter.flush();
                 bufferedWriter.close();
                 outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream,"iso-8859-1"));
+                String result ="";
+                String line;
+                while((line = bufferedReader.readLine()) != null){
+                    result += line;
+                }
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+                return result;
+
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else if(type.equals("view_inventory")){
+            try {
+                URL url = new URL(view_inventory_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
                 InputStream inputStream = httpURLConnection.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream,"iso-8859-1"));
                 String result ="";

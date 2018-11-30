@@ -27,7 +27,8 @@
         <activity android:name=".GraphActivity" />
         <activity android:name=".ViewEarningsActivity" />
         <activity android:name=".EditReportActivity" />
-        <activity android:name=".ViewReportDetails"></activity>
+        <activity android:name=".ViewReportDetails" />
+        <activity android:name=".ViewInventoryActivity"></activity>
     </application>
 
 </manifest>
