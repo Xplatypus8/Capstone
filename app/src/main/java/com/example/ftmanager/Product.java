@@ -17,7 +17,7 @@ public class Product {
         this.name = data[0];
         this.quantity = data[1];
         this.locationID = Integer.parseInt(data[2]);
-        this.date = data[3];
+        this.date = EarningsReport.formatDateMMDDYYYY(data[3]);
         this.isNeeded = true;
     }
 

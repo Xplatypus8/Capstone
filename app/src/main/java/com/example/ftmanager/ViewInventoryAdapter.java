@@ -1,6 +1,7 @@
 package com.example.ftmanager;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -14,25 +15,20 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ViewInventoryAdapter extends RecyclerView.Adapter<ViewInventoryAdapter.ViewInventoryViewHolder> {
 
     private Context context;
     private List<Product> productList;
-    private List<Product> productsAtLocation;
 
-    public ViewInventoryAdapter(Context context, List<Product> productList, int locationID) {
+    public ViewInventoryAdapter(Context context, List<Product> productList) {
         setHasStableIds(true);
         this.context = context;
         this.productList = productList;
-        this.productsAtLocation = new ArrayList<Product>();
-        for(Product product: productList){
-            if(product.getLocationID()==locationID){
-                productsAtLocation.add(product);
-            }
-        }
     }
 
     public List<Product> getSelectedItems(){
@@ -67,17 +63,23 @@ public class ViewInventoryAdapter extends RecyclerView.Adapter<ViewInventoryAdap
 
     @Override
     public void onBindViewHolder(@NonNull final ViewInventoryViewHolder holder, final int position) {
-        Product product = productsAtLocation.get(position);
+        Product product = productList.get(position);
         holder.titleTV.setText(product.getName());
         holder.quantityTV.setText(product.getQuantity());
         holder.dateTV.setText(product.getDate());
 
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        Date date = new Date();
+
+        if(product.getDate().equals(simpleDateFormat.format(date))){
+            holder.dateTV.setTextColor(Color.RED);
+        }
     }
 
     @Override
     public int getItemCount() {
 
-        return productsAtLocation.size();
+        return productList.size();
     }
 
     public class ViewInventoryViewHolder extends RecyclerView.ViewHolder {
