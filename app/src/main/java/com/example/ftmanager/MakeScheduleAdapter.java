@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,35 +65,32 @@ public class MakeScheduleAdapter extends RecyclerView.Adapter<MakeScheduleAdapte
     public void onBindViewHolder(@NonNull final MakeScheduleViewHolder holder, final int position) {
         final Schedule schedule = scheduleList.get(position);
 
-        holder.dateTV.setText(schedule.getDate());
+        final ArrayList<String> availableEmployees = new ArrayList<String>(userList);
 
+        holder.dateTV.setText(schedule.getDate());
 
         holder.employeeOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final PopupMenu popupMenu = new PopupMenu(context, holder.employeeOne);
-                popupMenu.getMenuInflater().inflate(R.menu.schedule_popup_menu, popupMenu.getMenu());
+                final PopupMenu popupMenu1 = new PopupMenu(context, holder.employeeOne);
 
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                for(String name: availableEmployees){
+                    popupMenu1.getMenu().add(name);
+                }
+                popupMenu1.getMenuInflater().inflate(R.menu.schedule_popup_menu, popupMenu1.getMenu());
+
+                popupMenu1.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
 
                         if(menuItem.getTitle().equals("unassigned")){
 
-                            HashMap<Integer, String> userMap;
-                            Bundle data = ((Activity) context).getIntent().getExtras();
-                            if(data != null){
-                                userMap = (HashMap<Integer,String>) data.getSerializable("userMap");
-                            }
-                            else {
-                                userMap = null;
-                            }
 
                             if(holder.employeeOneTV.getText().toString().equals("unassigned")){
                                 //do nothing
                             }
                             else{
-                                userList.add(holder.employeeOneTV.getText().toString());
+                                availableEmployees.add(holder.employeeOneTV.getText().toString());
                                 holder.employeeOneTV.setText(R.string.unassigned);
                             }
                             /*Intent intent = new Intent(context, ViewReportDetails.class);
@@ -103,77 +101,77 @@ public class MakeScheduleAdapter extends RecyclerView.Adapter<MakeScheduleAdapte
                             context.startActivity(intent);*/
                         }
                         else{
-                            for(String name: userList){
-                                if(menuItem.getTitle().equals(name) && !holder.employeeOneTV.getText().toString().equals(R.string.unassigned)){
-                                    userList.add(holder.employeeOneTV.getText().toString());
+                            for(String name: availableEmployees){
+                                if(menuItem.getTitle().equals(name) && !holder.employeeOneTV.getText().toString().equals("unassigned")){
+                                    availableEmployees.add(holder.employeeOneTV.getText().toString());
                                     holder.employeeOneTV.setText(name);
-                                    userList.remove(name);
+                                    availableEmployees.remove(name);
                                     break;
                                 }
-                                else if(menuItem.getTitle().equals(name) && holder.employeeOneTV.getText().toString().equals(R.string.unassigned)){
+                                else if(menuItem.getTitle().equals(name) && holder.employeeOneTV.getText().toString().equals("unassigned")){
                                     holder.employeeOneTV.setText(name);
-                                    userList.remove(name);
+                                    availableEmployees.remove(name);
                                     break;
 
                                 }
                             }
                         }
-                        /*else if(menuItem.getTitle().equals("Modify Report")){
-                            Intent intent = new Intent(context, EditReportActivity.class);
+
+                        return true;
+                    }
+                });
+                popupMenu1.show();
+            }
+        });
+
+        holder.employeeTwo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final PopupMenu popupMenu = new PopupMenu(context, holder.employeeTwo);
+
+                for(String name: availableEmployees){
+                    popupMenu.getMenu().add(name);
+                }
+                popupMenu.getMenuInflater().inflate(R.menu.schedule_popup_menu, popupMenu.getMenu());
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+
+                        if(menuItem.getTitle().equals("unassigned")){
+
+
+                            if(holder.employeeTwoTV.getText().toString().equals("unassigned")){
+                                //do nothing
+                            }
+                            else{
+                                availableEmployees.add(holder.employeeTwoTV.getText().toString());
+                                holder.employeeTwoTV.setText(R.string.unassigned);
+                            }
+                            /*Intent intent = new Intent(context, ViewReportDetails.class);
                             Bundle b = new Bundle();
                             b.putParcelable("currentReport", report);
+                            b.putSerializable("userMap", userMap);
                             intent.putExtras(b);
-                            context.startActivity(intent);
+                            context.startActivity(intent);*/
                         }
-                        else if(menuItem.getTitle().equals("Delete")){
-                            AlertDialog.Builder verifyDialog = new AlertDialog.Builder(context);
-                            verifyDialog.setTitle("Verify Information:")
-                                    .setMessage("Are you sure you want to delete this report? This action can't be undone.")
-                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            DatabaseConnector dbConnect = new DatabaseConnector();
-                                            try {
-                                                AlertDialog.Builder resultDialog = new AlertDialog.Builder(context);
-                                                String data = dbConnect.execute("delete_report", report.getId()+"").get();
-                                                if (data.equals("success")){
-                                                    resultDialog.setTitle("Status")
-                                                            .setMessage("Report has been deleted.")
-                                                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                                    //remove data from recyclerview and update
-                                                                    earningsReportList.remove(position);
-                                                                    notifyItemRemoved(position);
-                                                                    notifyItemRangeChanged(position, earningsReportList.size());
-                                                                    return;
-                                                                }
-                                                            }).show();
-
-                                                }
-                                                else{
-                                                    resultDialog.setTitle("Status")
-                                                            .setMessage("Failure. Could not delete report. Please try again.")
-                                                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                                    //Do nothing
-                                                                }
-                                                            }).show();
-                                                }
-                                            } catch (InterruptedException e) {
-                                                e.printStackTrace();
-                                            } catch (ExecutionException e) {
-                                                e.printStackTrace();
-                                            }
-                                        }
-                                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    //Do nothing
+                        else{
+                            for(String name: availableEmployees){
+                                if(menuItem.getTitle().equals(name) && !holder.employeeTwoTV.getText().toString().equals("unassigned")){
+                                    availableEmployees.add(holder.employeeTwoTV.getText().toString());
+                                    holder.employeeTwoTV.setText(name);
+                                    availableEmployees.remove(name);
+                                    break;
                                 }
-                            }).show();
-                        }*/
+                                else if(menuItem.getTitle().equals(name) && holder.employeeTwoTV.getText().toString().equals("unassigned")){
+                                    holder.employeeTwoTV.setText(name);
+                                    availableEmployees.remove(name);
+                                    break;
+
+                                }
+                            }
+                        }
+
                         return true;
                     }
                 });
