@@ -27,6 +27,9 @@ public class DatabaseConnector extends AsyncTask<String, Void, String>{
         String get_users_url = "http://18.224.210.74/appconnect/get_users.php";
         String delete_report_url = "http://18.224.210.74/appconnect/delete_report.php";
         String view_inventory_url = "http://18.224.210.74/appconnect/view_inventory.php";
+        String view_schedule_url = "http://18.224.210.74/appconnect/view_schedule.php";
+        String add_schedule_url = "http://18.224.210.74/appconnect/add_schedule.php";
+
         if(type.equals("login")){
             try {
                 String username = params[1];
@@ -349,6 +352,79 @@ public class DatabaseConnector extends AsyncTask<String, Void, String>{
                 e.printStackTrace();
             }
         }
+
+        else if(type.equals("view_schedule")){
+            try {
+                String location = params[1];
+                URL url = new URL(view_schedule_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                String post_data = URLEncoder.encode("loc", "UTF-8")+"="+URLEncoder.encode(location, "UTF-8");
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream,"iso-8859-1"));
+                String result ="";
+                String line;
+                while((line = bufferedReader.readLine()) != null){
+                    result += line;
+                }
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+                return result;
+
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        else if(type.equals("add_schedule")){
+            try {
+                String location = params[1];
+                String date = params[2];
+                URL url = new URL(add_schedule_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                String post_data = URLEncoder.encode("loc", "UTF-8")+"="+URLEncoder.encode(location, "UTF-8")+"&"
+                        +URLEncoder.encode("date", "UTF-8")+"="+URLEncoder.encode(date, "UTF-8");
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream,"iso-8859-1"));
+                String result ="";
+                String line;
+                while((line = bufferedReader.readLine()) != null){
+                    result += line;
+                }
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+                return result;
+
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         return null;
     }
 

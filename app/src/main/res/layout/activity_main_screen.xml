@@ -171,6 +171,8 @@
                     android:layout_weight="1"
                     android:layout_margin="2dp"
                     android:orientation="vertical"
+                    android:clickable="true"
+                    android:onClick="goToMakeSchedule"
                     android:background="@color/flagWhite">
                     <ImageView
                         android:layout_width="30dp"
