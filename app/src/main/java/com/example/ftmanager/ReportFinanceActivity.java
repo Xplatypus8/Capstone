@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -20,6 +21,7 @@ public class ReportFinanceActivity extends AppCompatActivity {
     private EditText cashET, creditET;
     private Spinner locSpinner;
     private User currentUser;
+    private HashMap<String, Location> locationMap;
     private List<String> locationList;
     private AlertDialog alertDialog;
 
@@ -27,20 +29,25 @@ public class ReportFinanceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_finance);
+
+        Bundle b = getIntent().getExtras();
+        if(b != null) {
+            currentUser = b.getParcelable("currentUser");
+            locationMap = (HashMap<String, Location>) b.getSerializable("locationMap");
+        }
+
+
         cashET = (EditText)findViewById(R.id.cashET);
         creditET = (EditText)findViewById(R.id.creditET);
         locSpinner = (Spinner)findViewById(R.id.locationSpinner);
-        locationList = new ArrayList<String>(Arrays.asList("Select a location", "Garrisonville", "Deacon", "North Carolina"));
+        locationList = new ArrayList<String>(locationMap.keySet());
+        locationList.add(0,"Select a location");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this, android.R.layout.simple_spinner_item, locationList);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         locSpinner.setAdapter(adapter);
         locSpinner.setSelection(0);
-        Bundle b = getIntent().getExtras();
-        if(b != null) {
-            currentUser = b.getParcelable("currentUser");
-        }
     }
 
     public void submitFinanceReport(View view) {
@@ -70,9 +77,7 @@ public class ReportFinanceActivity extends AppCompatActivity {
                                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
-                                            cashET.setText("");
-                                            creditET.setText("");
-                                            locSpinner.setSelection(0);
+                                            finish();
                                         }
                                     }).show();
 

@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutionException;
 public class MainScreenActivity extends AppCompatActivity {
     private User currentUser;
     private HashMap<Integer, String> userMap;
-    private HashMap<Integer, Location> locationMap;
+    private HashMap<String, Location> locationMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,8 +149,8 @@ public class MainScreenActivity extends AppCompatActivity {
         return userMap;
     }
 
-    private HashMap<Integer, Location> createLocationMap(){
-        HashMap<Integer, Location> locationMap = new HashMap<Integer, Location>();
+    private HashMap<String, Location> createLocationMap(){
+        HashMap<String, Location> locationMap = new HashMap<String, Location>();
 
         DatabaseConnector dbConnector = new DatabaseConnector();
 
@@ -159,7 +159,7 @@ public class MainScreenActivity extends AppCompatActivity {
 
             for(String userInfo: result.split("@")){
                 Location location = new Location(userInfo.split(","));
-                locationMap.put(new Integer(location.getLocationID()), location);
+                locationMap.put(location.getName(), location);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
