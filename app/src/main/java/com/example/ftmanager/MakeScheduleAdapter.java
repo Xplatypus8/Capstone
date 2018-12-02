@@ -26,13 +26,14 @@ import java.util.concurrent.ExecutionException;
 public class MakeScheduleAdapter extends RecyclerView.Adapter<MakeScheduleAdapter.MakeScheduleViewHolder> {
 
     private Context context;
-    private List<Schedule> scheduleList;
+    private List<Schedule> scheduleList, entireSchedule;
     private List<String> userList;
 
-    public MakeScheduleAdapter(Context context, List<Schedule> scheduleList, List<String> userList) {
+    public MakeScheduleAdapter(Context context, List<Schedule> scheduleList, List<Schedule> entireSchedule, List<String> userList) {
         setHasStableIds(true);
         this.context = context;
         this.scheduleList = scheduleList;
+        this.entireSchedule = entireSchedule;
         this.userList = userList;
     }
 
@@ -59,6 +60,8 @@ public class MakeScheduleAdapter extends RecyclerView.Adapter<MakeScheduleAdapte
     @Override
     public void onBindViewHolder(@NonNull final MakeScheduleViewHolder holder, final int position) {
         final Schedule schedule = scheduleList.get(position);
+
+        removeUsedNames(holder.availableEmployees, schedule.getDate());
 
         holder.dateTV.setText(schedule.getDate());
         holder.employeeOneTV.setText(schedule.getEmployeeOne());
@@ -208,6 +211,15 @@ public class MakeScheduleAdapter extends RecyclerView.Adapter<MakeScheduleAdapte
         return scheduleList.size();
     }
 
+    public void removeUsedNames(ArrayList<String> list, String date){
+        for(Schedule slot: scheduleList){
+            if(slot.getDate().equals(date)){
+                list.remove(slot.getEmployeeOne());
+                list.remove(slot.getEmployeeTwo());
+            }
+        }
+    }
+
     public class MakeScheduleViewHolder extends RecyclerView.ViewHolder {
         TextView dateTV, employeeOneTV, employeeTwoTV;
         CardView employeeOne, employeeTwo;
@@ -221,13 +233,9 @@ public class MakeScheduleAdapter extends RecyclerView.Adapter<MakeScheduleAdapte
             employeeOneTV = itemView.findViewById(R.id.msEmployee1TV);
             employeeTwoTV = itemView.findViewById(R.id.msEmployee2TV);
             availableEmployees = new ArrayList<String>(userList);
-            /*title = itemView.findViewById(R.id.productTitle);
-            amountET = itemView.findViewById(R.id.amountET);
-            checkBox = itemView.findViewById(R.id.checkBox);
 
-            amountET.setEnabled(false);
-            //stops app from crashing when selecting next edittext
-            amountET.setImeOptions(EditorInfo.IME_ACTION_DONE);*/
         }
+
+
     }
 }

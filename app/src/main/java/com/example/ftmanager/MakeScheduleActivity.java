@@ -1,6 +1,8 @@
 package com.example.ftmanager;
 
 import android.app.Activity;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -60,7 +62,7 @@ public class MakeScheduleActivity extends AppCompatActivity {
                 if(locationList.indexOf(locSpinner.getSelectedItem().toString())!=0){
                     locationSchedule = getSchedulesAtLocation();
                     addSchedule();
-                    MakeScheduleAdapter adapter = new MakeScheduleAdapter(MakeScheduleActivity.this, locationSchedule, nameList);
+                    MakeScheduleAdapter adapter = new MakeScheduleAdapter(MakeScheduleActivity.this, locationSchedule, schedule, nameList);
 
                     if(recyclerView.getAdapter() == null) {
                         recyclerView.setAdapter(adapter);
@@ -165,13 +167,38 @@ public class MakeScheduleActivity extends AppCompatActivity {
     }
 
     public void editSchedule(View view){
-        for(Schedule slot: schedule){
-            if(slot.updateRequired()){
-                DatabaseConnector dbConnect = new DatabaseConnector();
-                dbConnect.execute("update_schedule", slot.getID()+"", slot.getEmployeeOne(), slot.getEmployeeTwo());
-                slot.setUpdateRequired(false);
+
+        AlertDialog.Builder verifyDialog = new AlertDialog.Builder(this);
+        verifyDialog.setTitle("Verify Information:")
+                .setMessage("Are you sure you want to make these change?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        for(Schedule slot: schedule){
+                            if(slot.updateRequired()){
+                                DatabaseConnector dbConnect = new DatabaseConnector();
+                                dbConnect.execute("update_schedule", slot.getID()+"", slot.getEmployeeOne(), slot.getEmployeeTwo());
+                                slot.setUpdateRequired(false);
+                            }
+                        }
+
+                            AlertDialog.Builder resultDialog = new AlertDialog.Builder(MakeScheduleActivity.this);
+
+                                resultDialog.setTitle("Status")
+                                        .setMessage("Updates have been submitted.")
+                                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                            }
+                                        }).show();
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //Do nothing
             }
-        }
+        }).show();
     }
 }
-
