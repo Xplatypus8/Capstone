@@ -40,6 +40,7 @@ public class Schedule {
     public int getLocationID() {
         return locationID;
     }
+    public int getID(){return id;}
 
     public boolean updateRequired(){return updateRequired;}
 

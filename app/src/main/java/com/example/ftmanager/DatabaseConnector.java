@@ -29,6 +29,7 @@ public class DatabaseConnector extends AsyncTask<String, Void, String>{
         String view_inventory_url = "http://18.224.210.74/appconnect/view_inventory.php";
         String view_schedule_url = "http://18.224.210.74/appconnect/view_schedule.php";
         String add_schedule_url = "http://18.224.210.74/appconnect/add_schedule.php";
+        String update_schedule_url = "http://18.224.210.74/appconnect/update_schedule.php";
 
         if(type.equals("login")){
             try {
@@ -393,6 +394,45 @@ public class DatabaseConnector extends AsyncTask<String, Void, String>{
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
                 String post_data = URLEncoder.encode("loc", "UTF-8")+"="+URLEncoder.encode(location, "UTF-8")+"&"
                         +URLEncoder.encode("date", "UTF-8")+"="+URLEncoder.encode(date, "UTF-8");
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream,"iso-8859-1"));
+                String result ="";
+                String line;
+                while((line = bufferedReader.readLine()) != null){
+                    result += line;
+                }
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+                return result;
+
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        else if(type.equals("update_schedule")){
+            try {
+                String id = params[1];
+                String employeeOne = params[2];
+                String employeeTwo = params[3];
+                URL url = new URL(update_schedule_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                String post_data = URLEncoder.encode("id", "UTF-8")+"="+URLEncoder.encode(id, "UTF-8")+"&"
+                        +URLEncoder.encode("empOne", "UTF-8")+"="+URLEncoder.encode(employeeOne, "UTF-8") +"&"
+                        +URLEncoder.encode("empTwo", "UTF-8")+"="+URLEncoder.encode(employeeTwo, "UTF-8");
                 bufferedWriter.write(post_data);
                 bufferedWriter.flush();
                 bufferedWriter.close();

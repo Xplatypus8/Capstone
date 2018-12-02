@@ -89,6 +89,8 @@ public class MakeScheduleAdapter extends RecyclerView.Adapter<MakeScheduleAdapte
                                 holder.employeeOneTV.setText(R.string.unassigned);
                                 schedule.setEmployeeOne("unassigned");
                                 scheduleList.get(position).setEmployeeOne("unassigned");
+                                schedule.setUpdateRequired(true);
+                                scheduleList.get(position).setUpdateRequired(true);
 
                             }
                             /*Intent intent = new Intent(context, ViewReportDetails.class);
@@ -106,6 +108,8 @@ public class MakeScheduleAdapter extends RecyclerView.Adapter<MakeScheduleAdapte
                                     holder.availableEmployees.remove(name);
                                     schedule.setEmployeeOne(name);
                                     scheduleList.get(position).setEmployeeOne(name);
+                                    schedule.setUpdateRequired(true);
+                                    scheduleList.get(position).setUpdateRequired(true);
                                     break;
                                 }
                                 else if(menuItem.getTitle().equals(name) && holder.employeeOneTV.getText().toString().equals("unassigned")){
@@ -113,6 +117,8 @@ public class MakeScheduleAdapter extends RecyclerView.Adapter<MakeScheduleAdapte
                                     holder.availableEmployees.remove(name);
                                     schedule.setEmployeeOne(name);
                                     scheduleList.get(position).setEmployeeOne(name);
+                                    schedule.setUpdateRequired(true);
+                                    scheduleList.get(position).setUpdateRequired(true);
                                     break;
 
                                 }
@@ -151,6 +157,8 @@ public class MakeScheduleAdapter extends RecyclerView.Adapter<MakeScheduleAdapte
                                 holder.employeeTwoTV.setText(R.string.unassigned);
                                 schedule.setEmployeeTwo("unassigned");
                                 scheduleList.get(position).setEmployeeTwo("unassigned");
+                                schedule.setUpdateRequired(true);
+                                scheduleList.get(position).setUpdateRequired(true);
                             }
                             /*Intent intent = new Intent(context, ViewReportDetails.class);
                             Bundle b = new Bundle();
@@ -167,6 +175,8 @@ public class MakeScheduleAdapter extends RecyclerView.Adapter<MakeScheduleAdapte
                                     holder.availableEmployees.remove(name);
                                     schedule.setEmployeeTwo(name);
                                     scheduleList.get(position).setEmployeeTwo(name);
+                                    schedule.setUpdateRequired(true);
+                                    scheduleList.get(position).setUpdateRequired(true);
                                     break;
                                 }
                                 else if(menuItem.getTitle().equals(name) && holder.employeeTwoTV.getText().toString().equals("unassigned")){
@@ -174,6 +184,8 @@ public class MakeScheduleAdapter extends RecyclerView.Adapter<MakeScheduleAdapte
                                     holder.availableEmployees.remove(name);
                                     schedule.setEmployeeTwo(name);
                                     scheduleList.get(position).setEmployeeTwo(name);
+                                    schedule.setUpdateRequired(true);
+                                    scheduleList.get(position).setUpdateRequired(true);
                                     break;
 
                                 }

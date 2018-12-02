@@ -165,7 +165,13 @@ public class MakeScheduleActivity extends AppCompatActivity {
     }
 
     public void editSchedule(View view){
-        Toast.makeText(getApplicationContext(),getSchedulesAtLocation().get(0).getEmployeeOne() + " " + getSchedulesAtLocation().get(0).getEmployeeTwo(),Toast.LENGTH_SHORT).show();
+        for(Schedule slot: schedule){
+            if(slot.updateRequired()){
+                DatabaseConnector dbConnect = new DatabaseConnector();
+                dbConnect.execute("update_schedule", slot.getID()+"", slot.getEmployeeOne(), slot.getEmployeeTwo());
+                slot.setUpdateRequired(false);
+            }
+        }
     }
 }
 
