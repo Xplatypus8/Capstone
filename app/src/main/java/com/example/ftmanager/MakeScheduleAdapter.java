@@ -36,11 +36,6 @@ public class MakeScheduleAdapter extends RecyclerView.Adapter<MakeScheduleAdapte
         this.userList = userList;
     }
 
-    public String formatDateMMDDYYYY(String yyyymmdd){
-        String [] dateArray = yyyymmdd.split("-");
-        return dateArray[1] + "/" + dateArray[2] + "/" + dateArray[0];
-    }
-
 
     @Override
     public MakeScheduleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -65,16 +60,16 @@ public class MakeScheduleAdapter extends RecyclerView.Adapter<MakeScheduleAdapte
     public void onBindViewHolder(@NonNull final MakeScheduleViewHolder holder, final int position) {
         final Schedule schedule = scheduleList.get(position);
 
-        final ArrayList<String> availableEmployees = new ArrayList<String>(userList);
-
         holder.dateTV.setText(schedule.getDate());
+        holder.employeeOneTV.setText(schedule.getEmployeeOne());
+        holder.employeeTwoTV.setText(schedule.getEmployeeTwo());
 
         holder.employeeOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final PopupMenu popupMenu1 = new PopupMenu(context, holder.employeeOne);
 
-                for(String name: availableEmployees){
+                for(String name: holder.availableEmployees){
                     popupMenu1.getMenu().add(name);
                 }
                 popupMenu1.getMenuInflater().inflate(R.menu.schedule_popup_menu, popupMenu1.getMenu());
@@ -90,8 +85,11 @@ public class MakeScheduleAdapter extends RecyclerView.Adapter<MakeScheduleAdapte
                                 //do nothing
                             }
                             else{
-                                availableEmployees.add(holder.employeeOneTV.getText().toString());
+                                holder.availableEmployees.add(holder.employeeOneTV.getText().toString());
                                 holder.employeeOneTV.setText(R.string.unassigned);
+                                schedule.setEmployeeOne("unassigned");
+                                scheduleList.get(position).setEmployeeOne("unassigned");
+
                             }
                             /*Intent intent = new Intent(context, ViewReportDetails.class);
                             Bundle b = new Bundle();
@@ -101,16 +99,20 @@ public class MakeScheduleAdapter extends RecyclerView.Adapter<MakeScheduleAdapte
                             context.startActivity(intent);*/
                         }
                         else{
-                            for(String name: availableEmployees){
+                            for(String name: holder.availableEmployees){
                                 if(menuItem.getTitle().equals(name) && !holder.employeeOneTV.getText().toString().equals("unassigned")){
-                                    availableEmployees.add(holder.employeeOneTV.getText().toString());
+                                    holder.availableEmployees.add(holder.employeeOneTV.getText().toString());
                                     holder.employeeOneTV.setText(name);
-                                    availableEmployees.remove(name);
+                                    holder.availableEmployees.remove(name);
+                                    schedule.setEmployeeOne(name);
+                                    scheduleList.get(position).setEmployeeOne(name);
                                     break;
                                 }
                                 else if(menuItem.getTitle().equals(name) && holder.employeeOneTV.getText().toString().equals("unassigned")){
                                     holder.employeeOneTV.setText(name);
-                                    availableEmployees.remove(name);
+                                    holder.availableEmployees.remove(name);
+                                    schedule.setEmployeeOne(name);
+                                    scheduleList.get(position).setEmployeeOne(name);
                                     break;
 
                                 }
@@ -129,7 +131,7 @@ public class MakeScheduleAdapter extends RecyclerView.Adapter<MakeScheduleAdapte
             public void onClick(View view) {
                 final PopupMenu popupMenu = new PopupMenu(context, holder.employeeTwo);
 
-                for(String name: availableEmployees){
+                for(String name: holder.availableEmployees){
                     popupMenu.getMenu().add(name);
                 }
                 popupMenu.getMenuInflater().inflate(R.menu.schedule_popup_menu, popupMenu.getMenu());
@@ -145,8 +147,10 @@ public class MakeScheduleAdapter extends RecyclerView.Adapter<MakeScheduleAdapte
                                 //do nothing
                             }
                             else{
-                                availableEmployees.add(holder.employeeTwoTV.getText().toString());
+                                holder.availableEmployees.add(holder.employeeTwoTV.getText().toString());
                                 holder.employeeTwoTV.setText(R.string.unassigned);
+                                schedule.setEmployeeTwo("unassigned");
+                                scheduleList.get(position).setEmployeeTwo("unassigned");
                             }
                             /*Intent intent = new Intent(context, ViewReportDetails.class);
                             Bundle b = new Bundle();
@@ -156,16 +160,20 @@ public class MakeScheduleAdapter extends RecyclerView.Adapter<MakeScheduleAdapte
                             context.startActivity(intent);*/
                         }
                         else{
-                            for(String name: availableEmployees){
+                            for(String name: holder.availableEmployees){
                                 if(menuItem.getTitle().equals(name) && !holder.employeeTwoTV.getText().toString().equals("unassigned")){
-                                    availableEmployees.add(holder.employeeTwoTV.getText().toString());
+                                    holder.availableEmployees.add(holder.employeeTwoTV.getText().toString());
                                     holder.employeeTwoTV.setText(name);
-                                    availableEmployees.remove(name);
+                                    holder.availableEmployees.remove(name);
+                                    schedule.setEmployeeTwo(name);
+                                    scheduleList.get(position).setEmployeeTwo(name);
                                     break;
                                 }
                                 else if(menuItem.getTitle().equals(name) && holder.employeeTwoTV.getText().toString().equals("unassigned")){
                                     holder.employeeTwoTV.setText(name);
-                                    availableEmployees.remove(name);
+                                    holder.availableEmployees.remove(name);
+                                    schedule.setEmployeeTwo(name);
+                                    scheduleList.get(position).setEmployeeTwo(name);
                                     break;
 
                                 }
@@ -191,6 +199,7 @@ public class MakeScheduleAdapter extends RecyclerView.Adapter<MakeScheduleAdapte
     public class MakeScheduleViewHolder extends RecyclerView.ViewHolder {
         TextView dateTV, employeeOneTV, employeeTwoTV;
         CardView employeeOne, employeeTwo;
+        ArrayList<String> availableEmployees;
 
         public MakeScheduleViewHolder(View itemView) {
             super(itemView);
@@ -199,6 +208,7 @@ public class MakeScheduleAdapter extends RecyclerView.Adapter<MakeScheduleAdapte
             employeeTwo = itemView.findViewById(R.id.msEmployee2);
             employeeOneTV = itemView.findViewById(R.id.msEmployee1TV);
             employeeTwoTV = itemView.findViewById(R.id.msEmployee2TV);
+            availableEmployees = new ArrayList<String>(userList);
             /*title = itemView.findViewById(R.id.productTitle);
             amountET = itemView.findViewById(R.id.amountET);
             checkBox = itemView.findViewById(R.id.checkBox);

@@ -45,6 +45,10 @@ public class Schedule {
 
     public void setUpdateRequired(boolean updateRequired){this.updateRequired = updateRequired;}
 
+    public void setEmployeeOne(String name){this.employeeOne = name;}
+
+    public void setEmployeeTwo(String name){this.employeeTwo = name;}
+
     public void setID(int id){this.id = id;}
 
 
