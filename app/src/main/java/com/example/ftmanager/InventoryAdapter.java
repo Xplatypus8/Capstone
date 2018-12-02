@@ -71,7 +71,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
 
                         //stops app from crashing when selecting next edittext
                         if(isChecked){
-                            holder.amountET.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+                            holder.amountET.setImeOptions(EditorInfo.IME_ACTION_DONE);
                         }
                         else{
                             holder.amountET.setImeOptions(EditorInfo.IME_ACTION_DONE);

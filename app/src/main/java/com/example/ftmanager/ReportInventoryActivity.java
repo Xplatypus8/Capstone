@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -21,6 +22,7 @@ public class ReportInventoryActivity extends AppCompatActivity {
     private List<Product> productList;
     private List<String> locationList;
     private RecyclerView recyclerView;
+    private HashMap<String, Location> locationMap;
     private InventoryAdapter inventoryAdapter;
     private Spinner locSpinner;
 
@@ -29,9 +31,15 @@ public class ReportInventoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_inventory);
 
+        Bundle b = getIntent().getExtras();
+        if(b != null){
+            locationMap = (HashMap<String, Location>) b.getSerializable("locationMap");
+        }
+
         //Populate location spinner
         locSpinner = (Spinner)findViewById(R.id.locationSpinner2);
-        locationList = new ArrayList<String>(Arrays.asList("Select a location", "Garrisonville", "Deacon", "North Carolina"));
+        locationList = new ArrayList<String>(locationMap.keySet());
+        locationList.add(0,"Select a location");
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(
                 this, android.R.layout.simple_spinner_item, locationList);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -46,7 +54,7 @@ public class ReportInventoryActivity extends AppCompatActivity {
         productList = new ArrayList<Product>();
         productList.add(new Product("Vanilla Mix", ""));
         productList.add(new Product("Chocolate Mix", ""));
-        productList.add(new Product("Reese's Bits", ""));
+        productList.add(new Product("Reeses Bits", ""));
         productList.add(new Product("Butterfingers Bits", ""));
         productList.add(new Product("M&Ms", ""));
         productList.add(new Product("Oreo Bits", ""));
