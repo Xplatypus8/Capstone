@@ -30,7 +30,8 @@
         <activity android:name=".ViewReportDetails" />
         <activity android:name=".ViewInventoryActivity" />
         <activity android:name=".MakeScheduleActivity" />
-        <activity android:name=".ViewScheduleActivity"></activity>
+        <activity android:name=".ViewScheduleActivity" />
+        <activity android:name=".AddBuildingActivity"></activity>
     </application>
 
 </manifest>

@@ -13,12 +13,14 @@ import java.util.concurrent.ExecutionException;
 public class MainScreenActivity extends AppCompatActivity {
     private User currentUser;
     private HashMap<Integer, String> userMap;
+    private HashMap<Integer, Location> locationMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
 
         userMap = createUserMap();
+        locationMap = createLocationMap();
 
         Bundle b = getIntent().getExtras();
         if(b != null){
@@ -34,6 +36,8 @@ public class MainScreenActivity extends AppCompatActivity {
             Intent intent = new Intent(MainScreenActivity.this, RegisterActivity.class);
             Bundle b = new Bundle();
             b.putParcelable("currentUser", currentUser);
+            b.putSerializable("userMap", userMap);
+            b.putSerializable("locationMap", locationMap);
             intent.putExtras(b);
             startActivity(intent);
         }
@@ -47,6 +51,7 @@ public class MainScreenActivity extends AppCompatActivity {
         Intent intent = new Intent(MainScreenActivity.this, ReportFinanceActivity.class);
         Bundle b = new Bundle();
         b.putParcelable("currentUser", currentUser);
+        b.putSerializable("locationMap", locationMap);
         intent.putExtras(b);
         startActivity(intent);
 
@@ -56,6 +61,7 @@ public class MainScreenActivity extends AppCompatActivity {
         Intent intent = new Intent(MainScreenActivity.this, ReportInventoryActivity.class);
         Bundle b = new Bundle();
         b.putParcelable("currentUser", currentUser);
+        b.putSerializable("locationMap", locationMap);
         intent.putExtras(b);
         startActivity(intent);
 
@@ -65,6 +71,7 @@ public class MainScreenActivity extends AppCompatActivity {
         Intent intent = new Intent(MainScreenActivity.this, ViewEarningsActivity.class);
         Bundle b = new Bundle();
         b.putParcelable("currentUser", currentUser);
+        b.putSerializable("locationMap", locationMap);
         b.putSerializable("userMap", userMap);
         intent.putExtras(b);
         startActivity(intent);
@@ -74,6 +81,7 @@ public class MainScreenActivity extends AppCompatActivity {
         Intent intent = new Intent(MainScreenActivity.this, ViewInventoryActivity.class);
         Bundle b = new Bundle();
         b.putParcelable("currentUser", currentUser);
+        b.putSerializable("locationMap", locationMap);
         b.putSerializable("userMap", userMap);
         intent.putExtras(b);
         startActivity(intent);
@@ -83,6 +91,7 @@ public class MainScreenActivity extends AppCompatActivity {
         Intent intent = new Intent(MainScreenActivity.this, ViewScheduleActivity.class);
         Bundle b = new Bundle();
         b.putParcelable("currentUser", currentUser);
+        b.putSerializable("locationMap", locationMap);
         b.putSerializable("userMap", userMap);
         intent.putExtras(b);
         startActivity(intent);
@@ -92,6 +101,7 @@ public class MainScreenActivity extends AppCompatActivity {
         Intent intent = new Intent(MainScreenActivity.this, MakeScheduleActivity.class);
         Bundle b = new Bundle();
         b.putParcelable("currentUser", currentUser);
+        b.putSerializable("locationMap", locationMap);
         b.putSerializable("userMap", userMap);
         intent.putExtras(b);
         startActivity(intent);
@@ -101,6 +111,16 @@ public class MainScreenActivity extends AppCompatActivity {
         Intent intent = new Intent(MainScreenActivity.this, GraphActivity.class);
         Bundle b = new Bundle();
         b.putParcelable("currentUser", currentUser);
+        b.putSerializable("locationMap", locationMap);
+        intent.putExtras(b);
+        startActivity(intent);
+    }
+
+    public void goToAddLocation(View view){
+        Intent intent = new Intent(MainScreenActivity.this, AddBuildingActivity.class);
+        Bundle b = new Bundle();
+        b.putParcelable("currentUser", currentUser);
+        b.putSerializable("locationMap", locationMap);
         intent.putExtras(b);
         startActivity(intent);
     }
@@ -127,5 +147,25 @@ public class MainScreenActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return userMap;
+    }
+
+    private HashMap<Integer, Location> createLocationMap(){
+        HashMap<Integer, Location> locationMap = new HashMap<Integer, Location>();
+
+        DatabaseConnector dbConnector = new DatabaseConnector();
+
+        try {
+            String result = dbConnector.execute("get_locations").get();
+
+            for(String userInfo: result.split("@")){
+                Location location = new Location(userInfo.split(","));
+                locationMap.put(new Integer(location.getLocationID()), location);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return locationMap;
     }
 }

@@ -79,7 +79,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 String result = dbConnect.execute(type, username, password, position, firstName, lastName).get();
                                 if (result.equals("success")) {
                                     resultDialog.setTitle("Status")
-                                            .setMessage("The user has been registered!")
+                                            .setMessage("The user has been registered! Restart the app for changes to take effect.")
                                             .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialogInterface, int i) {

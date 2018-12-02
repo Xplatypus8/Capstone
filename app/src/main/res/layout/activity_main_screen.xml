@@ -234,20 +234,22 @@
                     android:layout_weight="1"
                     android:layout_margin="2dp"
                     android:orientation="vertical"
-                    android:background="@color/flagRed">
+                    android:background="@color/flagRed"
+                    android:clickable="true"
+                    android:onClick="goToAddLocation">
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_marginTop="20dp"
                         android:layout_gravity="center"
                         android:tint="@color/white"
-                        app:srcCompat = "@drawable/ic_settings"/>
+                        app:srcCompat = "@drawable/ic_add_location"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="8dp"
                         android:layout_marginTop="30dp"
-                        android:text="Settings"
+                        android:text="Add Location"
                         android:textColor="@color/white"
                         android:textAlignment="center"
                         android:textSize="15sp"
