@@ -29,7 +29,8 @@
         <activity android:name=".EditReportActivity" />
         <activity android:name=".ViewReportDetails" />
         <activity android:name=".ViewInventoryActivity" />
-        <activity android:name=".MakeScheduleActivity"></activity>
+        <activity android:name=".MakeScheduleActivity" />
+        <activity android:name=".ViewScheduleActivity"></activity>
     </application>
 
 </manifest>

@@ -79,6 +79,15 @@ public class MainScreenActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void goToViewSchedule(View view){
+        Intent intent = new Intent(MainScreenActivity.this, ViewScheduleActivity.class);
+        Bundle b = new Bundle();
+        b.putParcelable("currentUser", currentUser);
+        b.putSerializable("userMap", userMap);
+        intent.putExtras(b);
+        startActivity(intent);
+    }
+
     public void goToMakeSchedule(View view){
         Intent intent = new Intent(MainScreenActivity.this, MakeScheduleActivity.class);
         Bundle b = new Bundle();
