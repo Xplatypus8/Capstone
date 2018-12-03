@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
 public class ViewInventoryActivity extends AppCompatActivity {
@@ -21,6 +22,7 @@ public class ViewInventoryActivity extends AppCompatActivity {
     private Spinner locSpinner;
     private ArrayList<String> locationList;
     private ArrayList<Product> productList;
+    private HashMap<String,Location> locationMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +34,14 @@ public class ViewInventoryActivity extends AppCompatActivity {
         //get inventory data and store it in the database
         viewInventory();
 
+        Bundle b = getIntent().getExtras();
+        if(b != null){
+            locationMap = (HashMap<String, Location>) b.getSerializable("locationMap");
+        }
+
         locSpinner = (Spinner)findViewById(R.id.locationSpinnerVI);
-        locationList = new ArrayList<String>(Arrays.asList("Select a location", "Garrisonville", "Deacon", "North Carolina"));
+        locationList = new ArrayList<String>(locationMap.keySet());
+        locationList.add(0, "Select a location");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this, android.R.layout.simple_spinner_item, locationList);
 
@@ -47,10 +55,12 @@ public class ViewInventoryActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 ArrayList<Product> productsAtLocation = new ArrayList<Product>();
-                for(Product product: productList){
-                    //creates a list of products needed at a certain location
-                    if(product.getLocationID()==i){
-                        productsAtLocation.add(product);
+                if (!locSpinner.getSelectedItem().toString().equals("Select a location")) {
+                    for (Product product : productList) {
+                        //creates a list of products needed at a certain location
+                        if (product.getLocationID() == locationMap.get(locSpinner.getSelectedItem().toString()).getLocationID()) {
+                            productsAtLocation.add(product);
+                        }
                     }
                 }
 
