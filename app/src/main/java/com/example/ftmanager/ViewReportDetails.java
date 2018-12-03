@@ -10,6 +10,7 @@ import java.util.HashMap;
 public class ViewReportDetails extends AppCompatActivity {
 
     private HashMap<Integer, String> userMap;
+    private HashMap<String, Location> locationMap;
     private EarningsReport report;
     private TextView location, date, user, cash, credit, total;
 
@@ -21,11 +22,10 @@ public class ViewReportDetails extends AppCompatActivity {
         Bundle data = getIntent().getExtras();
         if(data != null){
             userMap = (HashMap<Integer,String>) data.getSerializable("userMap");
+            locationMap = (HashMap<String, Location>) data.getSerializable("locationMap");
             report = data.getParcelable("currentReport");
         }
-        else {
-            userMap = null;
-        }
+
 
         location = (TextView)findViewById(R.id.textView11);
         date = (TextView)findViewById(R.id.textView16);
@@ -34,12 +34,21 @@ public class ViewReportDetails extends AppCompatActivity {
         credit = (TextView)findViewById(R.id.textView14);
         total = (TextView)findViewById(R.id.textView15);
 
-        location.setText("Location: " + report.getLocationID());
+        location.setText("Location: " + getLocationName());
         date.setText("Date: " + EarningsReport.formatDateMMDDYYYY(report.getDate()));
         user.setText("User: " + userMap.get(report.getUserID()));
         cash.setText("Cash: $" + report.getCash().toString());
         credit.setText("Credit: $" + report.getCredit().toString());
         total.setText("Total: $" + report.getTotal().toString());
+    }
+
+    private String getLocationName(){
+        for (Location location: locationMap.values()){
+            if(report.getLocationID()==location.getLocationID()){
+                return location.getName();
+            }
+        }
+        return "Unspecified";
     }
 
 }

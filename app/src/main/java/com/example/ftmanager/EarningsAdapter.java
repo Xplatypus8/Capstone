@@ -59,6 +59,18 @@ public class EarningsAdapter extends RecyclerView.Adapter<EarningsAdapter.Earnin
     @Override
     public void onBindViewHolder(@NonNull final EarningsViewHolder holder, final int position) {
         final EarningsReport report = earningsReportList.get(position);
+        final HashMap<Integer, String> userMap;
+        final HashMap<String, Location> locationMap;
+
+        Bundle data = ((Activity) context).getIntent().getExtras();
+        if(data != null){
+            userMap = (HashMap<Integer,String>) data.getSerializable("userMap");
+            locationMap = (HashMap<String,Location>) data.getSerializable("locationMap");
+        }
+        else {
+            userMap = null;
+            locationMap = null;
+        }
 
         holder.dateTV.setText(formatDateMMDDYYYY(report.getDate()));
         holder.totalTV.setText("Total: " + report.getTotal().toString());
@@ -77,19 +89,12 @@ public class EarningsAdapter extends RecyclerView.Adapter<EarningsAdapter.Earnin
 
                         if(menuItem.getTitle().equals("Report Details")){
 
-                            HashMap<Integer, String> userMap;
-                            Bundle data = ((Activity) context).getIntent().getExtras();
-                            if(data != null){
-                                userMap = (HashMap<Integer,String>) data.getSerializable("userMap");
-                            }
-                            else {
-                                userMap = null;
-                            }
 
                             Intent intent = new Intent(context, ViewReportDetails.class);
                             Bundle b = new Bundle();
                             b.putParcelable("currentReport", report);
                             b.putSerializable("userMap", userMap);
+                            b.putSerializable("locationMap", locationMap);
                             intent.putExtras(b);
                             context.startActivity(intent);
                         }
@@ -97,6 +102,7 @@ public class EarningsAdapter extends RecyclerView.Adapter<EarningsAdapter.Earnin
                             Intent intent = new Intent(context, EditReportActivity.class);
                             Bundle b = new Bundle();
                             b.putParcelable("currentReport", report);
+                            b.putSerializable("locationMap", locationMap);
                             intent.putExtras(b);
                             context.startActivity(intent);
                         }

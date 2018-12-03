@@ -16,6 +16,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -25,6 +26,7 @@ public class EditReportActivity extends AppCompatActivity {
     private EditText cashET, creditET;
     private Spinner locSpinner;
     private List<String> locationList;
+    private HashMap<String, Location> locationMap;
     private TextView modifyReportDateTV;
     private DatePickerDialog.OnDateSetListener dateSetListener;
 
@@ -36,15 +38,18 @@ public class EditReportActivity extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         if (b != null) {
             currentReport = b.getParcelable("currentReport");
+            locationMap = (HashMap<String, Location>) b.getSerializable("locationMap");
         } else {
             currentReport = null;
+            locationMap = null;
         }
 
         cashET = (EditText) findViewById(R.id.modifyCashET);
         creditET = (EditText) findViewById(R.id.modifyCreditET);
 
         locSpinner = (Spinner) findViewById(R.id.locationSpinner5);
-        locationList = new ArrayList<String>(Arrays.asList("Select a location", "Garrisonville", "Deacon", "North Carolina"));
+        locationList = new ArrayList<String>(locationMap.keySet());
+        locationList.add(0, "Select a location");
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(
                 this, android.R.layout.simple_spinner_item, locationList);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -79,7 +84,7 @@ public class EditReportActivity extends AppCompatActivity {
     public void modifyReport(View view) {
         final String type = "modify_report";
         final String id = currentReport.getId() + "";
-        final String locationID = locationList.indexOf(locSpinner.getSelectedItem().toString()) == 0 ? currentReport.getLocationID() + "" : locationList.indexOf(locSpinner.getSelectedItem().toString()) + "";
+        final String locationID = locationList.indexOf(locSpinner.getSelectedItem().toString()) == 0 ? currentReport.getLocationID() + "" : locationMap.get(locSpinner.getSelectedItem().toString()).getLocationID() + "";
         final String cash = cashET.getText().toString().equals("") ? currentReport.getCash().toString() : cashET.getText().toString();
         final String credit = creditET.getText().toString().equals("") ? currentReport.getCredit().toString() : creditET.getText().toString();
         final String date = modifyReportDateTV.getText().toString().equals("") ? currentReport.getDate() : EarningsReport.formatDateYYYYMMDD(modifyReportDateTV.getText().toString());

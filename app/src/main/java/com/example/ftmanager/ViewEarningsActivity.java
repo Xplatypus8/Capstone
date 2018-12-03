@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -24,6 +25,7 @@ public class ViewEarningsActivity extends AppCompatActivity {
 
     private Spinner locSpinner;
     private List<String> locationList;
+    private HashMap<String, Location> locationMap;
     private List<EarningsReport> reportList;
     private TextView earningsDateTV;
     private DatePickerDialog.OnDateSetListener dateSetListener;
@@ -36,10 +38,16 @@ public class ViewEarningsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_earnings);
 
+        Bundle b = getIntent().getExtras();
+        if(b != null){
+            locationMap = (HashMap<String, Location>) b.getSerializable("locationMap");
+        }
+
         calendar = Calendar.getInstance();
 
         locSpinner = (Spinner)findViewById(R.id.locationSpinner4);
-        locationList = new ArrayList<String>(Arrays.asList("Select a location", "Garrisonville", "Deacon", "North Carolina"));
+        locationList = new ArrayList<String>(locationMap.keySet());
+        locationList.add(0, "Select a location");
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(
                 this, android.R.layout.simple_spinner_item, locationList);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -89,7 +97,7 @@ public class ViewEarningsActivity extends AppCompatActivity {
             String type = "get_f_data";
             String startDate = formatDateYYYYMMDD(earningsDateTV.getText().toString());
             String endDate = sdf.format(calendar.getTime());
-            String location = locationList.indexOf(locSpinner.getSelectedItem().toString()) + "";
+            String location = locationMap.get(locSpinner.getSelectedItem().toString()).getLocationID() +"";
 
             DatabaseConnector databaseConnector = new DatabaseConnector();
             try {
