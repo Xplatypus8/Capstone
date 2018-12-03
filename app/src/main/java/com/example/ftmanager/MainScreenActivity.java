@@ -68,13 +68,18 @@ public class MainScreenActivity extends AppCompatActivity {
     }
 
     public void goToViewEarnings(View view){
-        Intent intent = new Intent(MainScreenActivity.this, ViewEarningsActivity.class);
-        Bundle b = new Bundle();
-        b.putParcelable("currentUser", currentUser);
-        b.putSerializable("locationMap", locationMap);
-        b.putSerializable("userMap", userMap);
-        intent.putExtras(b);
-        startActivity(intent);
+        if(currentUser.getPosition().equals("owner")) {
+            Intent intent = new Intent(MainScreenActivity.this, ViewEarningsActivity.class);
+            Bundle b = new Bundle();
+            b.putParcelable("currentUser", currentUser);
+            b.putSerializable("locationMap", locationMap);
+            b.putSerializable("userMap", userMap);
+            intent.putExtras(b);
+            startActivity(intent);
+        }
+        else{
+            notAccessible();
+        }
     }
 
     public void goToViewInventory(View view){
@@ -98,31 +103,46 @@ public class MainScreenActivity extends AppCompatActivity {
     }
 
     public void goToMakeSchedule(View view){
-        Intent intent = new Intent(MainScreenActivity.this, MakeScheduleActivity.class);
-        Bundle b = new Bundle();
-        b.putParcelable("currentUser", currentUser);
-        b.putSerializable("locationMap", locationMap);
-        b.putSerializable("userMap", userMap);
-        intent.putExtras(b);
-        startActivity(intent);
+        if(currentUser.getPosition().equals("manager") || currentUser.getPosition().equals("owner")) {
+            Intent intent = new Intent(MainScreenActivity.this, MakeScheduleActivity.class);
+            Bundle b = new Bundle();
+            b.putParcelable("currentUser", currentUser);
+            b.putSerializable("locationMap", locationMap);
+            b.putSerializable("userMap", userMap);
+            intent.putExtras(b);
+            startActivity(intent);
+        }
+        else{
+            notAccessible();
+        }
     }
 
     public void goToGraph(View view){
-        Intent intent = new Intent(MainScreenActivity.this, GraphActivity.class);
-        Bundle b = new Bundle();
-        b.putParcelable("currentUser", currentUser);
-        b.putSerializable("locationMap", locationMap);
-        intent.putExtras(b);
-        startActivity(intent);
+        if(currentUser.getPosition().equals("owner")) {
+            Intent intent = new Intent(MainScreenActivity.this, GraphActivity.class);
+            Bundle b = new Bundle();
+            b.putParcelable("currentUser", currentUser);
+            b.putSerializable("locationMap", locationMap);
+            intent.putExtras(b);
+            startActivity(intent);
+        }
+        else{
+            notAccessible();
+        }
     }
 
     public void goToAddLocation(View view){
-        Intent intent = new Intent(MainScreenActivity.this, AddBuildingActivity.class);
-        Bundle b = new Bundle();
-        b.putParcelable("currentUser", currentUser);
-        b.putSerializable("locationMap", locationMap);
-        intent.putExtras(b);
-        startActivity(intent);
+        if(currentUser.getPosition().equals("owner")) {
+            Intent intent = new Intent(MainScreenActivity.this, AddBuildingActivity.class);
+            Bundle b = new Bundle();
+            b.putParcelable("currentUser", currentUser);
+            b.putSerializable("locationMap", locationMap);
+            intent.putExtras(b);
+            startActivity(intent);
+        }
+        else{
+            notAccessible();
+        }
     }
 
     private void notAccessible(){

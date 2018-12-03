@@ -45,7 +45,6 @@ public class Login extends AppCompatActivity {
 
             }
             else{
-                Toast.makeText(getApplicationContext(),data,Toast.LENGTH_SHORT).show();
                 alertDialog = new AlertDialog.Builder(this).create();
                 alertDialog.setTitle("Login Status");
                 alertDialog.setMessage("Incorrect username or passsword.");
