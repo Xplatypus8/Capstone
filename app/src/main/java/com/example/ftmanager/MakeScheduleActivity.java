@@ -30,6 +30,7 @@ public class MakeScheduleActivity extends AppCompatActivity {
     private Spinner locSpinner;
     private ArrayList<String> nameList, locationList;
     private ArrayList<Schedule> schedule, locationSchedule;
+    private HashMap<String,Location> locationMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +42,15 @@ public class MakeScheduleActivity extends AppCompatActivity {
         fillSchedule();
         initializeNameList();
 
+        Bundle b = getIntent().getExtras();
+        if(b != null){
+            locationMap = (HashMap<String, Location>) b.getSerializable("locationMap");
+        }
+
 
         locSpinner = (Spinner)findViewById(R.id.locationSpinnerMS);
-        locationList = new ArrayList<String>(Arrays.asList("Select a location", "Garrisonville", "Deacon", "North Carolina"));
+        locationList = new ArrayList<String>(locationMap.keySet());
+        locationList.add(0, "Select a location");
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(
                 this, android.R.layout.simple_spinner_item, locationList);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -159,7 +166,7 @@ public class MakeScheduleActivity extends AppCompatActivity {
     private ArrayList<Schedule> getSchedulesAtLocation(){
         ArrayList<Schedule> schedulesAtLocation = new ArrayList<>();
         for(Schedule slot: schedule){
-            if(slot.getLocationID() == locationList.indexOf(locSpinner.getSelectedItem().toString())){
+            if(slot.getLocationID() == locationMap.get(locSpinner.getSelectedItem().toString()).getLocationID()){
                 schedulesAtLocation.add(slot);
             }
         }

@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -38,11 +39,18 @@ public class GraphActivity extends AppCompatActivity {
     private CheckBox checkBox;
     private Spinner locSpinner;
     private List<String> locationList;
+    private HashMap<String,Location> locationMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph);
+
+        Bundle b = getIntent().getExtras();
+        if(b != null){
+            locationMap = (HashMap<String, Location>) b.getSerializable("locationMap");
+        }
+
 
         startDateTV = (TextView)findViewById(R.id.startDate);
         endDateTV = (TextView)findViewById(R.id.endDate);
@@ -52,7 +60,8 @@ public class GraphActivity extends AppCompatActivity {
         checkBox = (CheckBox)findViewById(R.id.cashCredit);
 
         locSpinner = (Spinner)findViewById(R.id.locationSpinner3);
-        locationList = new ArrayList<String>(Arrays.asList("Select a location", "Garrisonville", "Deacon", "North Carolina"));
+        locationList = new ArrayList<String>(locationMap.keySet());
+        locationList.add(0, "Select a location");
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(
                 this, android.R.layout.simple_spinner_item, locationList);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -146,6 +155,11 @@ public class GraphActivity extends AppCompatActivity {
             alertDialog.setMessage("Please select a range of dates");
             alertDialog.show();
         }
+        else if(!validDateRange(startDateTV.getText().toString(), endDateTV.getText().toString())){
+            alertDialog.setTitle("Error:");
+            alertDialog.setMessage("The range of dates is invalid");
+            alertDialog.show();
+        }
         else {
 
             graphView.removeAllSeries();
@@ -154,17 +168,18 @@ public class GraphActivity extends AppCompatActivity {
 
             //parameters for the databaseConnector
             String type = "get_f_data";
-            String location = locationList.indexOf(locSpinner.getSelectedItem().toString()) + "";
-            String startDate = formatDateYYYYMMDD(startDateTV.getText().toString());
-            String endDate = formatDateYYYYMMDD(endDateTV.getText().toString());
+            String location = locationMap.get(locSpinner.getSelectedItem().toString()).getLocationID() + "";
+            String startDate = EarningsReport.formatDateYYYYMMDD(startDateTV.getText().toString());
+            String endDate = EarningsReport.formatDateYYYYMMDD(endDateTV.getText().toString());
             DatabaseConnector databaseConnector = new DatabaseConnector();
             List<EarningsReport> earningsReportList = new ArrayList<EarningsReport>();
 
             try {
                 String reportValues = databaseConnector.execute(type, startDate, endDate, location).get();
-                String[] reports = reportValues.split("@");///////////////////////////////////////
-                for (String report : reportValues.split("@")) {
-                    earningsReportList.add(new EarningsReport(report.split(",")));
+                if(!reportValues.equals("failure")) {
+                    for (String report : reportValues.split("@")) {
+                        earningsReportList.add(new EarningsReport(report.split(",")));
+                    }
                 }
 
 
@@ -173,7 +188,7 @@ public class GraphActivity extends AppCompatActivity {
                     LineGraphSeries<DataPoint> lineGraphCredit = new LineGraphSeries<DataPoint>();
 
                     for (EarningsReport earningsReport : earningsReportList) {
-                        Date x = new SimpleDateFormat("dd/MM/yyyy").parse(formatDateDDMMYYYY(earningsReport.getDate()));
+                        Date x = new SimpleDateFormat("yyyy-MM-dd").parse(earningsReport.getDate());
                         double yCash = earningsReport.getCash().doubleValue();
                         double yCredit = earningsReport.getCredit().doubleValue();
 
@@ -192,7 +207,7 @@ public class GraphActivity extends AppCompatActivity {
                     LineGraphSeries<DataPoint> lineGraph = new LineGraphSeries<DataPoint>();
 
                     for (EarningsReport earningsReport : earningsReportList) {
-                        Date x = new SimpleDateFormat("dd/MM/yyyy").parse(formatDateDDMMYYYY(earningsReport.getDate()));
+                        Date x = new SimpleDateFormat("yyyy-MM-dd").parse(earningsReport.getDate());
                         double y = earningsReport.getTotal().doubleValue();
 
                         lineGraph.appendData(new DataPoint(x, y), true, 365);
@@ -226,13 +241,16 @@ public class GraphActivity extends AppCompatActivity {
         }
     }
 
-    public String formatDateYYYYMMDD(String mmddyyyy){
-        String [] dateArray = mmddyyyy.split("/");
-        return dateArray[2] + "-" + dateArray[0] + "-" + dateArray[1];
+    private boolean validDateRange(String date1, String date2){
+        try {
+            Date d1 = new SimpleDateFormat("MM/dd/yyyy").parse(date1);
+            Date d2 = new SimpleDateFormat("MM/dd/yyyy").parse(date2);
+            return d1.before(d2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
+
     }
 
-    public String formatDateDDMMYYYY(String yyyymmdd){
-        String [] dateArray = yyyymmdd.split("-");
-        return dateArray[2] + "/" + dateArray[1] + "/" + dateArray[0];
-    }
 }
