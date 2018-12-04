@@ -109,19 +109,19 @@ public class MakeScheduleActivity extends AppCompatActivity {
     }
 
     private void addSchedule(){
-        while(locationSchedule.size() != 14){
+        while(locationSchedule.size() < 14){
             try {
                 Schedule newSchedule;
                 if(locationSchedule.size() > 0) {
                     //Create a date for the day after the last item in the schedule list
                     Date lastDate = new SimpleDateFormat("MM/dd/yyyy").parse(locationSchedule.get(locationSchedule.size() - 1).getDate());
                     DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-                    newSchedule = new Schedule("unassigned", "unassigned", dateFormat.format(addDay(lastDate)), locationList.indexOf(locSpinner.getSelectedItem().toString()));
+                    newSchedule = new Schedule("unassigned", "unassigned", dateFormat.format(addDay(lastDate)), locationMap.get(locSpinner.getSelectedItem().toString()).getLocationID());
                 }
                 else{
                     SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
                     Date date = new Date();
-                    newSchedule = new Schedule("unassigned", "unassigned", dateFormat.format(date), locationList.indexOf(locSpinner.getSelectedItem().toString()));
+                    newSchedule = new Schedule("unassigned", "unassigned", dateFormat.format(date), locationMap.get(locSpinner.getSelectedItem().toString()).getLocationID());
 
                 }
 

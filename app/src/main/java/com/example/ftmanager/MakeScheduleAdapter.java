@@ -212,7 +212,7 @@ public class MakeScheduleAdapter extends RecyclerView.Adapter<MakeScheduleAdapte
     }
 
     public void removeUsedNames(ArrayList<String> list, String date){
-        for(Schedule slot: scheduleList){
+        for(Schedule slot: entireSchedule){
             if(slot.getDate().equals(date)){
                 list.remove(slot.getEmployeeOne());
                 list.remove(slot.getEmployeeTwo());
