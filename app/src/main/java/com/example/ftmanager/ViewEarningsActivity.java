@@ -104,7 +104,7 @@ public class ViewEarningsActivity extends AppCompatActivity {
                 reportList = new ArrayList<EarningsReport>();
 
                 String reportValues = databaseConnector.execute(type, startDate, endDate, location).get();
-                if (!reportValues.equals(null) && !reportValues.equals("login failed")) {
+                if (!reportValues.equals(null) && !reportValues.equals("failure")) {
                     for (String report : reportValues.split("@")) {
                         reportList.add(new EarningsReport(report.split(",")));
                     }

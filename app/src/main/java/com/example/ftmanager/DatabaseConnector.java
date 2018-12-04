@@ -117,6 +117,7 @@ public class DatabaseConnector extends AsyncTask<String, Void, String>{
                 String credit = params[2];
                 String location = params[3];
                 String userID = params[4];
+                String date = params[5];
                 URL url = new URL(send_f_report_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
@@ -127,6 +128,7 @@ public class DatabaseConnector extends AsyncTask<String, Void, String>{
                 String post_data = URLEncoder.encode("cash", "UTF-8")+"="+URLEncoder.encode(cash, "UTF-8")+"&"
                         +URLEncoder.encode("credit", "UTF-8")+"="+URLEncoder.encode(credit, "UTF-8") +"&"
                         +URLEncoder.encode("userID", "UTF-8")+"="+URLEncoder.encode(userID, "UTF-8") +"&"
+                        +URLEncoder.encode("date", "UTF-8")+"="+URLEncoder.encode(date, "UTF-8") +"&"
                         +URLEncoder.encode("loc", "UTF-8")+"="+URLEncoder.encode(location, "UTF-8");
                 bufferedWriter.write(post_data);
                 bufferedWriter.flush();

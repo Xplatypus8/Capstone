@@ -10,8 +10,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -70,7 +73,9 @@ public class ReportFinanceActivity extends AppCompatActivity {
                     DatabaseConnector dbConnect = new DatabaseConnector();
                     try {
                         AlertDialog.Builder resultDialog = new AlertDialog.Builder(ReportFinanceActivity.this);
-                        String data = dbConnect.execute("send_f_report", cash, credit, location, userID).get();
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        Date date = Calendar.getInstance().getTime();
+                        String data = dbConnect.execute("send_f_report", cash, credit, location, userID, simpleDateFormat.format(date)).get();
                         if (data.equals("success")){
                             resultDialog.setTitle("Status")
                                     .setMessage("Report has been submitted!")
