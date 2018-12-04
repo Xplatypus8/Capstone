@@ -2,17 +2,11 @@ package com.example.ftmanager;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.os.Parcel;
-import android.provider.SyncStateContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class Login extends AppCompatActivity {
@@ -30,9 +24,12 @@ public class Login extends AppCompatActivity {
         String username = usernameET.getText().toString();
         String password = passwordET.getText().toString();
         String type = "login";
+        //checks the user entered info against the database
         DatabaseConnector dbConnect = new DatabaseConnector();
 
         try {
+            //Gets info on the current user if login is a success.
+            //This is important later for determining access levels
             String data = dbConnect.execute(type, username, password ).get();
             if(!data.equals("login failed")){
                     User currentUser = new User(data.split(","));

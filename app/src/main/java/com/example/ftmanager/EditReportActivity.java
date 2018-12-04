@@ -11,10 +11,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +44,7 @@ public class EditReportActivity extends AppCompatActivity {
         cashET = (EditText) findViewById(R.id.modifyCashET);
         creditET = (EditText) findViewById(R.id.modifyCreditET);
 
+        //init spinner and populate with locations
         locSpinner = (Spinner) findViewById(R.id.locationSpinner5);
         locationList = new ArrayList<String>(locationMap.keySet());
         locationList.add(0, "Select a location");
@@ -82,6 +80,7 @@ public class EditReportActivity extends AppCompatActivity {
     }
 
     public void modifyReport(View view) {
+        //Ternary operators checking to see if any fields have been updated. Any fields left blank will remain the same
         final String type = "modify_report";
         final String id = currentReport.getId() + "";
         final String locationID = locationList.indexOf(locSpinner.getSelectedItem().toString()) == 0 ? currentReport.getLocationID() + "" : locationMap.get(locSpinner.getSelectedItem().toString()).getLocationID() + "";
@@ -89,8 +88,6 @@ public class EditReportActivity extends AppCompatActivity {
         final String credit = creditET.getText().toString().equals("") ? currentReport.getCredit().toString() : creditET.getText().toString();
         final String date = modifyReportDateTV.getText().toString().equals("") ? currentReport.getDate() : EarningsReport.formatDateYYYYMMDD(modifyReportDateTV.getText().toString());
 
-
-            ////////////////////////////////////////////////
 
             AlertDialog.Builder verifyDialog = new AlertDialog.Builder(this);
             verifyDialog.setTitle("Verify Information:")
@@ -135,9 +132,6 @@ public class EditReportActivity extends AppCompatActivity {
                     //Do nothing
                 }
             }).show();
-
-            ///////////////////////////////////////////////
-
 
         }
     }

@@ -1,12 +1,7 @@
 package com.example.ftmanager;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,12 +12,9 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ExecutionException;
 
+//Adapter for the MakeSchedule class
 public class MakeScheduleAdapter extends RecyclerView.Adapter<MakeScheduleAdapter.MakeScheduleViewHolder> {
 
     private Context context;
@@ -32,8 +24,8 @@ public class MakeScheduleAdapter extends RecyclerView.Adapter<MakeScheduleAdapte
     public MakeScheduleAdapter(Context context, List<Schedule> scheduleList, List<Schedule> entireSchedule, List<String> userList) {
         setHasStableIds(true);
         this.context = context;
-        this.scheduleList = scheduleList;
-        this.entireSchedule = entireSchedule;
+        this.scheduleList = scheduleList; //schedule of the selected location.
+        this.entireSchedule = entireSchedule; //entire schedule of all locations
         this.userList = userList;
     }
 
@@ -67,6 +59,7 @@ public class MakeScheduleAdapter extends RecyclerView.Adapter<MakeScheduleAdapte
         holder.employeeOneTV.setText(schedule.getEmployeeOne());
         holder.employeeTwoTV.setText(schedule.getEmployeeTwo());
 
+        //a popup menu apears when the cardview is selected
         holder.employeeOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,12 +89,6 @@ public class MakeScheduleAdapter extends RecyclerView.Adapter<MakeScheduleAdapte
                                 scheduleList.get(position).setUpdateRequired(true);
 
                             }
-                            /*Intent intent = new Intent(context, ViewReportDetails.class);
-                            Bundle b = new Bundle();
-                            b.putParcelable("currentReport", report);
-                            b.putSerializable("userMap", userMap);
-                            intent.putExtras(b);
-                            context.startActivity(intent);*/
                         }
                         else{
                             for(String name: holder.availableEmployees){
@@ -163,12 +150,6 @@ public class MakeScheduleAdapter extends RecyclerView.Adapter<MakeScheduleAdapte
                                 schedule.setUpdateRequired(true);
                                 scheduleList.get(position).setUpdateRequired(true);
                             }
-                            /*Intent intent = new Intent(context, ViewReportDetails.class);
-                            Bundle b = new Bundle();
-                            b.putParcelable("currentReport", report);
-                            b.putSerializable("userMap", userMap);
-                            intent.putExtras(b);
-                            context.startActivity(intent);*/
                         }
                         else{
                             for(String name: holder.availableEmployees){
@@ -211,6 +192,7 @@ public class MakeScheduleAdapter extends RecyclerView.Adapter<MakeScheduleAdapte
         return scheduleList.size();
     }
 
+    //Remove names that are already on the schedule for a given date
     public void removeUsedNames(ArrayList<String> list, String date){
         for(Schedule slot: entireSchedule){
             if(slot.getDate().equals(date)){
@@ -223,7 +205,7 @@ public class MakeScheduleAdapter extends RecyclerView.Adapter<MakeScheduleAdapte
     public class MakeScheduleViewHolder extends RecyclerView.ViewHolder {
         TextView dateTV, employeeOneTV, employeeTwoTV;
         CardView employeeOne, employeeTwo;
-        ArrayList<String> availableEmployees;
+        ArrayList<String> availableEmployees; //list of emplyee names that have not been scheduled on a certain date.
 
         public MakeScheduleViewHolder(View itemView) {
             super(itemView);

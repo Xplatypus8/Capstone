@@ -1,12 +1,12 @@
 package com.example.ftmanager;
 
-import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import java.util.HashMap;
 
+//Activity that lets you view details about a selected report.
 public class ViewReportDetails extends AppCompatActivity {
 
     private HashMap<Integer, String> userMap;
@@ -42,6 +42,7 @@ public class ViewReportDetails extends AppCompatActivity {
         total.setText("Total: $" + report.getTotal().toString());
     }
 
+    //gets the name of a location given its id number
     private String getLocationName(){
         for (Location location: locationMap.values()){
             if(report.getLocationID()==location.getLocationID()){

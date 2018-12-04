@@ -4,15 +4,9 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -20,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+//adapter that populates the viewinventoryactivity
 public class ViewInventoryAdapter extends RecyclerView.Adapter<ViewInventoryAdapter.ViewInventoryViewHolder> {
 
     private Context context;
@@ -30,17 +25,6 @@ public class ViewInventoryAdapter extends RecyclerView.Adapter<ViewInventoryAdap
         this.context = context;
         this.productList = productList;
     }
-
-    public List<Product> getSelectedItems(){
-        List<Product> selected = new ArrayList<Product>();
-        for(Product product: productList){
-            if(product.isNeeded()){
-                selected.add(product);
-            }
-        }
-        return selected;
-    }
-
 
     @Override
     public ViewInventoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -63,6 +47,7 @@ public class ViewInventoryAdapter extends RecyclerView.Adapter<ViewInventoryAdap
 
     @Override
     public void onBindViewHolder(@NonNull final ViewInventoryViewHolder holder, final int position) {
+        //no functionality. only for viewing purposes
         Product product = productList.get(position);
         holder.titleTV.setText(product.getName());
         holder.quantityTV.setText(product.getQuantity());
@@ -71,6 +56,7 @@ public class ViewInventoryAdapter extends RecyclerView.Adapter<ViewInventoryAdap
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
         Date date = new Date();
 
+        //Items that are needed before work today are highlighted red
         if(product.getDate().equals(simpleDateFormat.format(date))){
             holder.dateTV.setTextColor(Color.RED);
         }

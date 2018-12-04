@@ -13,7 +13,6 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
@@ -24,7 +23,6 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -59,6 +57,7 @@ public class GraphActivity extends AppCompatActivity {
 
         checkBox = (CheckBox)findViewById(R.id.cashCredit);
 
+        //init spinner and populate with locations
         locSpinner = (Spinner)findViewById(R.id.locationSpinner3);
         locationList = new ArrayList<String>(locationMap.keySet());
         locationList.add(0, "Select a location");
@@ -72,6 +71,7 @@ public class GraphActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
+                //reset graph on change
                 checkBox.setChecked(false);
                 checkBox.setEnabled(false);
                 graphView.removeAllSeries();
@@ -134,6 +134,7 @@ public class GraphActivity extends AppCompatActivity {
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                //refreshes the graph
                 graphDataPoints(graphView);
             }
         });
@@ -175,6 +176,7 @@ public class GraphActivity extends AppCompatActivity {
             List<EarningsReport> earningsReportList = new ArrayList<EarningsReport>();
 
             try {
+                //pull financial data from database
                 String reportValues = databaseConnector.execute(type, startDate, endDate, location).get();
                 if(!reportValues.equals("failure")) {
                     for (String report : reportValues.split("@")) {
@@ -184,9 +186,11 @@ public class GraphActivity extends AppCompatActivity {
 
 
                 if (checkBox.isChecked()) {
+                    //two different lines for cash and credit
                     LineGraphSeries<DataPoint> lineGraphCash = new LineGraphSeries<DataPoint>();
                     LineGraphSeries<DataPoint> lineGraphCredit = new LineGraphSeries<DataPoint>();
 
+                    //add datapoints to graph
                     for (EarningsReport earningsReport : earningsReportList) {
                         Date x = new SimpleDateFormat("yyyy-MM-dd").parse(earningsReport.getDate());
                         double yCash = earningsReport.getCash().doubleValue();
@@ -204,8 +208,10 @@ public class GraphActivity extends AppCompatActivity {
                     graphView.getLegendRenderer().setVisible(true);
                     graphView.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
                 } else {
+                    //one line for the total
                     LineGraphSeries<DataPoint> lineGraph = new LineGraphSeries<DataPoint>();
 
+                    //add datapoints to graph
                     for (EarningsReport earningsReport : earningsReportList) {
                         Date x = new SimpleDateFormat("yyyy-MM-dd").parse(earningsReport.getDate());
                         double y = earningsReport.getTotal().doubleValue();
@@ -226,6 +232,7 @@ public class GraphActivity extends AppCompatActivity {
                 Date xMin = new SimpleDateFormat("MM/dd/yyyy").parse(startDateTV.getText().toString());
                 Date xMax = new SimpleDateFormat("MM/dd/yyyy").parse(endDateTV.getText().toString());
 
+                //set graph bounds
                 graphView.getViewport().setMinX(xMin.getTime());
                 graphView.getViewport().setMaxX(xMax.getTime());
                 graphView.getViewport().setXAxisBoundsManual(true);
@@ -241,6 +248,7 @@ public class GraphActivity extends AppCompatActivity {
         }
     }
 
+    //makes sure the start date is before the end date
     private boolean validDateRange(String date1, String date2){
         try {
             Date d1 = new SimpleDateFormat("MM/dd/yyyy").parse(date1);

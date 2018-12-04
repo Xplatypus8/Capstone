@@ -17,6 +17,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+//This adapter populates the RecyclerView for ReportInventoryActivity.
 public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.InventoryViewHolder> {
 
     private Context context;
@@ -28,6 +29,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
         this.productList = productList;
     }
 
+    //gets a list of products that have been checked.
     public List<Product> getSelectedItems(){
         List<Product> selected = new ArrayList<Product>();
         for(Product product: productList){

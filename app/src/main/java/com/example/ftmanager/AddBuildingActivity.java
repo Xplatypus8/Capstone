@@ -10,6 +10,7 @@ import android.widget.EditText;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
+//This activity allows you to add locations to the database
 public class AddBuildingActivity extends AppCompatActivity {
 
     private EditText buildingName;

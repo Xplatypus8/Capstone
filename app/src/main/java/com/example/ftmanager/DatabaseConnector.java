@@ -13,25 +13,29 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 
+//This class is used to interact with the database.
 public class DatabaseConnector extends AsyncTask<String, Void, String>{
 
     @Override
     protected String doInBackground(String... params) {
+        //params[0] is always the type of operation to be performed
         String type = params[0];
-        String login_url = "http://18.224.210.74/appconnect/login.php";
-        String register_url = "http://18.224.210.74/appconnect/register.php";
-        String send_f_report_url = "http://18.224.210.74/appconnect/send_financial_report.php";
-        String send_i_report_url = "http://18.224.210.74/appconnect/send_inventory_report.php";
-        String get_f_data_url = "http://18.224.210.74/appconnect/graph_data.php";
-        String modify_report_url = "http://18.224.210.74/appconnect/modify_report.php";
-        String get_users_url = "http://18.224.210.74/appconnect/get_users.php";
-        String delete_report_url = "http://18.224.210.74/appconnect/delete_report.php";
-        String view_inventory_url = "http://18.224.210.74/appconnect/view_inventory.php";
-        String view_schedule_url = "http://18.224.210.74/appconnect/view_schedule.php";
-        String add_schedule_url = "http://18.224.210.74/appconnect/add_schedule.php";
-        String update_schedule_url = "http://18.224.210.74/appconnect/update_schedule.php";
-        String add_location_url = "http://18.224.210.74/appconnect/add_location.php";
-        String get_locations_url = "http://18.224.210.74/appconnect/get_locations.php";
+
+        //php urls
+        final String login_url = "http://18.224.210.74/appconnect/login.php";
+        final String register_url = "http://18.224.210.74/appconnect/register.php";
+        final String send_f_report_url = "http://18.224.210.74/appconnect/send_financial_report.php";
+        final String send_i_report_url = "http://18.224.210.74/appconnect/send_inventory_report.php";
+        final String get_f_data_url = "http://18.224.210.74/appconnect/graph_data.php";
+        final String modify_report_url = "http://18.224.210.74/appconnect/modify_report.php";
+        final String get_users_url = "http://18.224.210.74/appconnect/get_users.php";
+        final String delete_report_url = "http://18.224.210.74/appconnect/delete_report.php";
+        final String view_inventory_url = "http://18.224.210.74/appconnect/view_inventory.php";
+        final String view_schedule_url = "http://18.224.210.74/appconnect/view_schedule.php";
+        final String add_schedule_url = "http://18.224.210.74/appconnect/add_schedule.php";
+        final String update_schedule_url = "http://18.224.210.74/appconnect/update_schedule.php";
+        final String add_location_url = "http://18.224.210.74/appconnect/add_location.php";
+        final String get_locations_url = "http://18.224.210.74/appconnect/get_locations.php";
 
         if(type.equals("login")){
             try {

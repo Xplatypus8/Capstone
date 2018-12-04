@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -30,7 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
         lastNameET = (EditText)findViewById(R.id.lastNameET);
         usernameET = (EditText)findViewById(R.id.usernameET2);
         passwordET = (EditText)findViewById(R.id.passwordET2);
-        accessList = new ArrayList<String>(Arrays.asList("Select a position","owner", "manager", "cashier"));
+        accessList = new ArrayList<String>(Arrays.asList("Select a position","owner", "manager", "cashier")); //list of available positions
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this, android.R.layout.simple_spinner_item, accessList);
 
@@ -53,6 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
         final String position = positionOptions.getSelectedItem().toString();
         final String type = "register";
 
+        //warn user if any field is left blank
         if (positionOptions.getSelectedItem().toString().equals("Select a position")
                 || firstName.equals("")
                 || lastName.equals("")
@@ -64,7 +64,6 @@ public class RegisterActivity extends AppCompatActivity {
         } else {
 
 
-            ///////////////////////////////////////////////
             AlertDialog.Builder verifyDialog = new AlertDialog.Builder(this);
             verifyDialog.setTitle("Verify Information:")
                     .setMessage("Are you sure this information is correct?")
@@ -109,7 +108,6 @@ public class RegisterActivity extends AppCompatActivity {
                     //Do nothing
                 }
             }).show();
-            //////////////////////////////////////////////
         }
     }
 

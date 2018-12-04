@@ -9,14 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
+//sends inventory data to the database
 public class ReportInventoryActivity extends AppCompatActivity {
 
     private List<Product> productList;
@@ -51,6 +49,7 @@ public class ReportInventoryActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        //list of products employees may need to buy at the store before work
         productList = new ArrayList<Product>();
         productList.add(new Product("Vanilla Mix", ""));
         productList.add(new Product("Chocolate Mix", ""));
@@ -91,23 +90,10 @@ public class ReportInventoryActivity extends AppCompatActivity {
                     .setPositiveButton("Correct", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                           // try {
                                 AlertDialog.Builder resultDialog = new AlertDialog.Builder(ReportInventoryActivity.this);
                                 for(Product product: requiredProducts){
                                     DatabaseConnector dbConnect = new DatabaseConnector();
                                     dbConnect.execute("send_i_report", product.getName(), product.getQuantity(), location);
-                                    //Toast.makeText(getApplicationContext(),data,Toast.LENGTH_SHORT).show();
-                                    /*if(!data.equals("success")){
-                                        resultDialog.setTitle("Status")
-                                                .setMessage("Failure. Did not submit report. Please try again or contact the owner.")
-                                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                                        //Do nothing
-                                                    }
-                                                }).show();
-                                        return;
-                                    }*/
                                 }
 
                                     resultDialog.setTitle("Status")
@@ -119,11 +105,6 @@ public class ReportInventoryActivity extends AppCompatActivity {
                                                 }
                                             }).show();
 
-                            /*} catch (InterruptedException e) {
-                                e.printStackTrace();
-                            } catch (ExecutionException e) {
-                                e.printStackTrace();
-                            }*/
                         }
                     }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override

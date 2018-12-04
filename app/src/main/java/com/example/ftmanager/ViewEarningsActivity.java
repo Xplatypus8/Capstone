@@ -11,16 +11,15 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+//Activity that allows the owner to view how much money a location has made
 public class ViewEarningsActivity extends AppCompatActivity {
 
     private Spinner locSpinner;
@@ -45,6 +44,7 @@ public class ViewEarningsActivity extends AppCompatActivity {
 
         calendar = Calendar.getInstance();
 
+        //init spinner and populate with locations
         locSpinner = (Spinner)findViewById(R.id.locationSpinner4);
         locationList = new ArrayList<String>(locationMap.keySet());
         locationList.add(0, "Select a location");
@@ -103,6 +103,7 @@ public class ViewEarningsActivity extends AppCompatActivity {
             try {
                 reportList = new ArrayList<EarningsReport>();
 
+                //pulls reports from database
                 String reportValues = databaseConnector.execute(type, startDate, endDate, location).get();
                 if (!reportValues.equals(null) && !reportValues.equals("failure")) {
                     for (String report : reportValues.split("@")) {
@@ -110,7 +111,7 @@ public class ViewEarningsActivity extends AppCompatActivity {
                     }
                 }
 
-                //init recyclerview
+                //init recyclerview after data is pulled
                 recyclerView = (RecyclerView) findViewById(R.id.recyclerView2);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new LinearLayoutManager(this));

@@ -8,17 +8,16 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+//sends financial information to database
 public class ReportFinanceActivity extends AppCompatActivity {
 
     private EditText cashET, creditET;
@@ -42,6 +41,8 @@ public class ReportFinanceActivity extends AppCompatActivity {
 
         cashET = (EditText)findViewById(R.id.cashET);
         creditET = (EditText)findViewById(R.id.creditET);
+
+        //init spinner and populate with locations
         locSpinner = (Spinner)findViewById(R.id.locationSpinner);
         locationList = new ArrayList<String>(locationMap.keySet());
         locationList.add(0,"Select a location");
@@ -58,12 +59,14 @@ public class ReportFinanceActivity extends AppCompatActivity {
         final String cash = cashET.getText().toString();
         final String credit = creditET.getText().toString();
         final String userID = currentUser.getUserID() + "";
+
         if (location.equals("Select a location") || cash.equals("") || credit.equals("")) {
             alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setTitle("Error:");
             alertDialog.setMessage("Please fill out all fields");
             alertDialog.show();
-        } else {
+        }
+        else {
             AlertDialog.Builder verifyDialog = new AlertDialog.Builder(this);
             verifyDialog.setTitle("Verify Information:")
                     .setMessage("Today, you've earned $" + cash + " in cash, and $" + credit + " in credit at " +location +".")

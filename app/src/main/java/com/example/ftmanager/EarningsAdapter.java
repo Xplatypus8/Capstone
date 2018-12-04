@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+
+//adapter that populates the ViewEarningsActivity RecyclerView
 public class EarningsAdapter extends RecyclerView.Adapter<EarningsAdapter.EarningsViewHolder> {
 
     private Context context;
@@ -89,7 +91,7 @@ public class EarningsAdapter extends RecyclerView.Adapter<EarningsAdapter.Earnin
 
                         if(menuItem.getTitle().equals("Report Details")){
 
-
+                            //launch ViewReportDetails Activity
                             Intent intent = new Intent(context, ViewReportDetails.class);
                             Bundle b = new Bundle();
                             b.putParcelable("currentReport", report);
@@ -99,6 +101,7 @@ public class EarningsAdapter extends RecyclerView.Adapter<EarningsAdapter.Earnin
                             context.startActivity(intent);
                         }
                         else if(menuItem.getTitle().equals("Modify Report")){
+                            //launch EditReportActivity
                             Intent intent = new Intent(context, EditReportActivity.class);
                             Bundle b = new Bundle();
                             b.putParcelable("currentReport", report);
@@ -107,6 +110,7 @@ public class EarningsAdapter extends RecyclerView.Adapter<EarningsAdapter.Earnin
                             context.startActivity(intent);
                         }
                         else if(menuItem.getTitle().equals("Delete")){
+                            //delete the report. verify with user first.
                             AlertDialog.Builder verifyDialog = new AlertDialog.Builder(context);
                             verifyDialog.setTitle("Verify Information:")
                                     .setMessage("Are you sure you want to delete this report? This action can't be undone.")
@@ -182,14 +186,6 @@ public class EarningsAdapter extends RecyclerView.Adapter<EarningsAdapter.Earnin
             cashTV = itemView.findViewById(R.id.cashTV);
             creditTV = itemView.findViewById(R.id.creditTV);
             button = itemView.findViewById(R.id.popup);
-
-            /*title = itemView.findViewById(R.id.productTitle);
-            amountET = itemView.findViewById(R.id.amountET);
-            checkBox = itemView.findViewById(R.id.checkBox);
-
-            amountET.setEnabled(false);
-            //stops app from crashing when selecting next edittext
-            amountET.setImeOptions(EditorInfo.IME_ACTION_DONE);*/
         }
     }
 }

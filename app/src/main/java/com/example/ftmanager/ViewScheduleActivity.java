@@ -10,10 +10,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
+//Very similiar to MakeScheduleActivity, except without any of the functionality.
 public class ViewScheduleActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
@@ -37,7 +37,7 @@ public class ViewScheduleActivity extends AppCompatActivity {
             locationMap = (HashMap<String, Location>) b.getSerializable("locationMap");
         }
 
-
+        //init spinner and populate with locations
         locSpinner = (Spinner)findViewById(R.id.locationSpinnerVS);
         locationList = new ArrayList<String>(locationMap.keySet());
         locationList.add(0, "Select a location");
@@ -60,6 +60,7 @@ public class ViewScheduleActivity extends AppCompatActivity {
                     locationSchedule = getSchedulesAtLocation();
                     ViewScheduleAdapter adapter = new ViewScheduleAdapter(ViewScheduleActivity.this, locationSchedule);
 
+                    //Replace adapter when a new location is selected
                     if(recyclerView.getAdapter() == null) {
                         recyclerView.setAdapter(adapter);
                     }
@@ -78,6 +79,7 @@ public class ViewScheduleActivity extends AppCompatActivity {
 
     }
 
+    //pulls schedule data from the database.
     public void fillSchedule(){
         DatabaseConnector dbConnect = new DatabaseConnector();
         try {
@@ -96,6 +98,7 @@ public class ViewScheduleActivity extends AppCompatActivity {
         }
     }
 
+    //filters schedule results to a certain location
     private ArrayList<Schedule> getSchedulesAtLocation(){
         ArrayList<Schedule> schedulesAtLocation = new ArrayList<>();
         for(Schedule slot: schedule){

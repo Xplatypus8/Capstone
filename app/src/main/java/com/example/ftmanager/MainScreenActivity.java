@@ -7,9 +7,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+//This is the home screen activity. Mainly serves to redirect you to other functions
 public class MainScreenActivity extends AppCompatActivity {
     private User currentUser;
     private HashMap<Integer, String> userMap;
@@ -19,6 +19,7 @@ public class MainScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
 
+        //adds data to user and location maps
         userMap = createUserMap();
         locationMap = createLocationMap();
 
@@ -149,6 +150,7 @@ public class MainScreenActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(),"You do not have access to this feature.",Toast.LENGTH_SHORT).show();
     }
 
+    //creates a list of all users
     private HashMap<Integer, String> createUserMap(){
         HashMap<Integer, String> userMap = new HashMap<Integer, String>();
 
@@ -169,6 +171,7 @@ public class MainScreenActivity extends AppCompatActivity {
         return userMap;
     }
 
+    //creates a list of all locations
     private HashMap<String, Location> createLocationMap(){
         HashMap<String, Location> locationMap = new HashMap<String, Location>();
 

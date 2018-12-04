@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import java.util.List;
 
+//Very similar to MakeScheduleAdapter, except without onclick listeners
 public class ViewScheduleAdapter extends RecyclerView.Adapter<ViewScheduleAdapter.ViewScheduleViewHolder> {
 
     private Context context;

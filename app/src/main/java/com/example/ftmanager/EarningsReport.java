@@ -53,10 +53,6 @@ public class EarningsReport implements Parcelable {
         return locationID;
     }
 
-    public void setLocationID(int locationID) {
-        this.locationID = locationID;
-    }
-
     public BigDecimal getCash() {
         return cash;
     }
@@ -77,20 +73,12 @@ public class EarningsReport implements Parcelable {
         return total;
     }
 
-    public void setTotal(BigDecimal total) {
-        this.total = total;
-    }
-
     public String getDate() {
         return date;
     }
 
     public void setDate(String date) {
         this.date = date;
-    }
-
-    public double getDayVal(){
-        return Double.parseDouble(date.split("-")[2]);
     }
 
 
@@ -110,11 +98,13 @@ public class EarningsReport implements Parcelable {
         parcel.writeString(date);
     }
 
+    //Used to format date in several activities
     public static String formatDateYYYYMMDD(String mmddyyyy){
         String [] dateArray = mmddyyyy.split("/");
         return dateArray[2] + "-" + dateArray[0] + "-" + dateArray[1];
     }
 
+    //Used to format date in several activities
     public static String formatDateMMDDYYYY(String yyyymmdd){
         String [] dateArray = yyyymmdd.split("-");
         return dateArray[1] + "/" + dateArray[2] + "/" + dateArray[0];

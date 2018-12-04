@@ -1,6 +1,5 @@
 package com.example.ftmanager;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -11,17 +10,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class MakeScheduleActivity extends AppCompatActivity {
@@ -39,6 +35,7 @@ public class MakeScheduleActivity extends AppCompatActivity {
 
         schedule = new ArrayList<Schedule>();
 
+        //pulls existing schedule data from the database.
         fillSchedule();
         initializeNameList();
 
@@ -47,7 +44,7 @@ public class MakeScheduleActivity extends AppCompatActivity {
             locationMap = (HashMap<String, Location>) b.getSerializable("locationMap");
         }
 
-
+        //init spinner and populate with locations
         locSpinner = (Spinner)findViewById(R.id.locationSpinnerMS);
         locationList = new ArrayList<String>(locationMap.keySet());
         locationList.add(0, "Select a location");
@@ -71,6 +68,7 @@ public class MakeScheduleActivity extends AppCompatActivity {
                     addSchedule();
                     MakeScheduleAdapter adapter = new MakeScheduleAdapter(MakeScheduleActivity.this, locationSchedule, schedule, nameList);
 
+                    //replace adapter when location changes.
                     if(recyclerView.getAdapter() == null) {
                         recyclerView.setAdapter(adapter);
                     }
@@ -90,6 +88,7 @@ public class MakeScheduleActivity extends AppCompatActivity {
 
     }
 
+    //fill schedule with preexisting entries
     public void fillSchedule(){
         DatabaseConnector dbConnect = new DatabaseConnector();
         try {
@@ -108,6 +107,7 @@ public class MakeScheduleActivity extends AppCompatActivity {
         }
     }
 
+    //add schedule entries. Adds two weeks worth of entries. does nothing if entries already exist.
     private void addSchedule(){
         while(locationSchedule.size() < 14){
             try {
@@ -142,6 +142,7 @@ public class MakeScheduleActivity extends AppCompatActivity {
         }
     }
 
+    //create a list of employee names
     private void initializeNameList(){
 
         HashMap<Integer, String> userMap;
@@ -155,6 +156,7 @@ public class MakeScheduleActivity extends AppCompatActivity {
         nameList = new ArrayList<String>(userMap.values());
     }
 
+    //add one day to a date
     private Date addDay(Date date){
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -163,6 +165,7 @@ public class MakeScheduleActivity extends AppCompatActivity {
         return date;
     }
 
+    //create a list of schedule entries for a certain location
     private ArrayList<Schedule> getSchedulesAtLocation(){
         ArrayList<Schedule> schedulesAtLocation = new ArrayList<>();
         for(Schedule slot: schedule){
@@ -173,6 +176,7 @@ public class MakeScheduleActivity extends AppCompatActivity {
         return schedulesAtLocation;
     }
 
+    //submit changes to the schedule
     public void editSchedule(View view){
 
         AlertDialog.Builder verifyDialog = new AlertDialog.Builder(this);

@@ -1,6 +1,5 @@
 package com.example.ftmanager;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,13 +8,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
+//pulls inventory data for viewing
 public class ViewInventoryActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
@@ -31,7 +29,7 @@ public class ViewInventoryActivity extends AppCompatActivity {
 
         productList = new ArrayList<Product>();
 
-        //get inventory data and store it in the database
+        //get all inventory data and store it in the database
         viewInventory();
 
         Bundle b = getIntent().getExtras();
@@ -39,6 +37,7 @@ public class ViewInventoryActivity extends AppCompatActivity {
             locationMap = (HashMap<String, Location>) b.getSerializable("locationMap");
         }
 
+        //init spinner and populate with locations
         locSpinner = (Spinner)findViewById(R.id.locationSpinnerVI);
         locationList = new ArrayList<String>(locationMap.keySet());
         locationList.add(0, "Select a location");
