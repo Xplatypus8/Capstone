@@ -27,4 +27,7 @@ The project in its current state:
   
   the current security group settings only allow you to be connected to cnu wifi.
   
-  Login information is provided in the contents.pdf
+  Login information is as follows:
+  Owner   - username: xplat  password: daking
+  Manager - username: megrd  password: qwerty
+  Cashier - username: test   password: test
