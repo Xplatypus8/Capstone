@@ -14,7 +14,6 @@ The project in its current state:
   9. Cashiers can view the schedule, but can't update.
   
   To download this application to your phone, you will need android studio or another IDE that supports android.
-  
   Here is the link to download android studio: https://developer.android.com/studio/
   
   Once you have the IDE, download this project and import it.
@@ -24,7 +23,6 @@ The project in its current state:
   Here is the link instructing you on how to enable developer mode: https://www.digitaltrends.com/mobile/how-to-get-developer-options-on-android/
   
   IN ORDER FOR THIS APPLICATION TO WORK, YOU MUST BE CONNECTED TO CNU WIFI!!!
-  
   the current security group settings only allow you to be connected to cnu wifi.
   
   Login information is as follows:
